@@ -1,0 +1,44 @@
+{
+    "id": "100053822723332",
+    "birthday": "07/30/2000",
+    "education": [
+        {
+            "school": {
+                "id": "281075475263495",
+                "name": "THPT Nguyễn Trãi"
+            },
+            "type": "High School",
+            "id": "113591640444926"
+        }
+    ],
+    "email": "uhfhlh0048@demail3.com",
+    "first_name": "Đạt",
+    "gender": "male",
+    "hometown": {
+        "id": "106388046062960",
+        "name": "Hà Nội"
+    },
+    "last_name": "Trọng",
+    "link": "https://www.facebook.com/profile.php?id=100053822723332",
+    "location": {
+        "id": "104903689546377",
+        "name": "Phùng Khoang, Ha Noi, Vietnam"
+    },
+    "locale": "vi_VN",
+    "name": "Trọng Đạt",
+    "published_timeline": true,
+    "timezone": 7,
+    "updated_time": "2020-09-24T08:16:47+0000",
+    "verified": true,
+    "work": [
+        {
+            "end_date": "0000-00",
+            "employer": {
+                "id": "106388046062960",
+                "name": "Hà Nội"
+            },
+            "start_date": "2017-07-30",
+            "id": "113591347111622"
+        }
+    ]
+}

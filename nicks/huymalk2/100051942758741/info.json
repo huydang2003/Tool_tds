@@ -1,0 +1,53 @@
+{
+    "id": "100051942758741",
+    "birthday": "02/14/2002",
+    "education": [
+        {
+            "school": {
+                "id": "281422751877475",
+                "name": "Trường THPT Hậu Lộc 4"
+            },
+            "type": "High School",
+            "id": "110134477394644"
+        },
+        {
+            "school": {
+                "id": "445135002247959",
+                "name": "Đại học Hồng Đức"
+            },
+            "type": "College",
+            "id": "110134794061279"
+        }
+    ],
+    "email": "wocaw35373@demail3.com",
+    "first_name": "Anh",
+    "gender": "male",
+    "last_name": "Quang",
+    "link": "https://www.facebook.com/profile.php?id=100051942758741",
+    "location": {
+        "id": "106388046062960",
+        "name": "Hà Nội"
+    },
+    "locale": "vi_VN",
+    "name": "Quang Anh",
+    "published_timeline": true,
+    "relationship_status": "Độc thân",
+    "timezone": 7,
+    "updated_time": "2020-09-24T08:17:36+0000",
+    "verified": true,
+    "work": [
+        {
+            "end_date": "0000-00",
+            "employer": {
+                "id": "445135002247959",
+                "name": "Đại học Hồng Đức"
+            },
+            "location": {
+                "id": "105667452800809",
+                "name": "Thanh Hóa"
+            },
+            "start_date": "0000-00",
+            "id": "110134840727941"
+        }
+    ]
+}
