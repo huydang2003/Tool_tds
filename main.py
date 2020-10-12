@@ -253,6 +253,7 @@ class tool_tds():
 		soup = soup.body.find(id="root")
 		check = False
 		list_form = soup.find_all('form')
+		if list_form == []: return check
 		for form in list_form:
 			url = form.get('action')
 			if '/comment.php?' in url:
@@ -267,6 +268,7 @@ class tool_tds():
 			link = 'https://mbasic.facebook.com' + url
 			self.ses.post(link, data=payload, headers=headers)
 		return check
+
 
 	def make_all_fb(self, cookie, job):
 		temp = job.split('|')
