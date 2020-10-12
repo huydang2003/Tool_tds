@@ -419,9 +419,9 @@ if __name__ == '__main__':
 							sleep(10)
 							check = tool.login_tds()
 							if check != False: break
+				if check_close == True: break
 				print(f'\n>>>Change FB...{time_change}s')
 				sleep(time_change)
-				if check_close == True: break
 			if check_close == True: break
 			
 	else: print('Login failed!!!')
