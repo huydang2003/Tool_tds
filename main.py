@@ -185,8 +185,9 @@ class tool_tds():
 		res = self.ses.get(link, headers=headers)
 		soup = BeautifulSoup(res.content, 'html.parser')
 		soup = soup.body.find(id="root")
-		list_a = soup.find_all('a')
 		check = False
+		list_a = soup.find_all('a')
+		if list_a == []: return check
 		for a in list_a:
 			url = a.get('href')
 			if '/subscribe.php' in url:
@@ -203,8 +204,9 @@ class tool_tds():
 		res = self.ses.get(link, headers=headers)
 		soup = BeautifulSoup(res.content, 'html.parser')
 		soup = soup.body.find(id="root")
-		list_table = soup.find_all('table')
 		check = False
+		list_table = soup.find_all('table')
+		if list_table == []: return check
 		for table in list_table:
 			if table.get('role') == "presentation":
 				list_a = table.find_all('a')
@@ -227,6 +229,7 @@ class tool_tds():
 		soup = soup.body.find(id="root")
 		check = False
 		list_a = soup.find_all('a')
+		if list_a == []: return check
 		for a in list_a:
 			url = a.get('href')
 			if '/reactions/' in url:
