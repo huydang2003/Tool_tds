@@ -342,25 +342,25 @@ if __name__ == '__main__':
 		cout_cookie_die = 0
 		check_close = False
 		while True:
-			try:
-				check_cookie_die = True
-				for id_nick_fb in tool.list_cookie:
-					if id_nick_fb not in dict_job: dict_job[id_nick_fb]=[]
-					if id_nick_fb not in cout_make_fb: cout_make_fb[id_nick_fb]=0
-					if id_nick_fb not in cout_failed: cout_failed[id_nick_fb]=0
-					if tool.list_cookie[id_nick_fb] != '': check_cookie_die = False
-				if check_cookie_die == True:
-					print('>>>Hết nick chạy!!!<<<')
-					break
-				list_nick = list(tool.list_cookie.keys())
-				random.shuffle(list_nick)
-				for id_nick_fb in list_nick:
-					cookie = tool.list_cookie[id_nick_fb]
-					if cookie=='': continue
-					tool.cauhinh_nick(id_nick_fb)
-					print('\n++>>FB make:',tool.list_nick[id_nick_fb])
-					cout = 0
-					while True:
+			check_cookie_die = True
+			for id_nick_fb in tool.list_cookie:
+				if id_nick_fb not in dict_job: dict_job[id_nick_fb]=[]
+				if id_nick_fb not in cout_make_fb: cout_make_fb[id_nick_fb]=0
+				if id_nick_fb not in cout_failed: cout_failed[id_nick_fb]=0
+				if tool.list_cookie[id_nick_fb] != '': check_cookie_die = False
+			if check_cookie_die == True:
+				print('>>>Hết nick chạy!!!<<<')
+				break
+			list_nick = list(tool.list_cookie.keys())
+			random.shuffle(list_nick)
+			for id_nick_fb in list_nick:
+				cookie = tool.list_cookie[id_nick_fb]
+				if cookie=='': continue
+				tool.cauhinh_nick(id_nick_fb)
+				print('\n++>>FB make:',tool.list_nick[id_nick_fb])
+				cout = 0
+				while True:
+					try:
 						while True:
 							if len(dict_job[id_nick_fb])>0: break
 							dict_job[id_nick_fb] = tool.get_list_job(id_nick_fb)
@@ -406,15 +406,16 @@ if __name__ == '__main__':
 								print(f' >>delay {s}s')
 								sleep(s)
 								if cout >= loop_job: break
-					print(f'\n>>>Change FB...{time_change}s')
-					sleep(time_change)
-					if check_close == True: break
+					except:
+						while True:
+							print('Lỗi mạng đợi 10s!!!')
+							sleep(10)
+							check = tool.login_tds()
+							if check != False: break
+				print(f'\n>>>Change FB...{time_change}s')
+				sleep(time_change)
 				if check_close == True: break
-			except:
-				while True:
-					print('Lỗi mạng đợi 10s!!!')
-					sleep(10)
-					check = tool.login_tds()
-					if check != False: break
+			if check_close == True: break
+			
 	else: print('Login failed!!!')
 	print('Kết thúc tool!!!')
