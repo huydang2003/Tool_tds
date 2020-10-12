@@ -4,7 +4,6 @@ import json
 from os import path, mkdir, system
 import random
 from time import sleep
-import sys
 import re
 
 class tool_tds():
@@ -181,7 +180,7 @@ class tool_tds():
 		return link
 
 	def make_job_sub(self, cookie, link):
-		link = self.fill_link(link)
+		link = link.replace('/www.', '/mbasic.')
 		headers = self.get_headers(cookie)
 		res = self.ses.get(link, headers=headers)
 		soup = BeautifulSoup(res.content, 'html.parser')
@@ -314,10 +313,10 @@ class tool_tds():
 					
 if __name__ == '__main__':
 	if not path.exists('nicks'): mkdir('nicks')
-	system('clear')
+	system('cls')
 	username = input('>>>UserName: ')
 	password = input('>>>PassWord: ')
-	system('clear')
+	system('cls')
 	tool = tool_tds(username, password)
 	check = tool.login_tds()
 	if check == True:
@@ -327,25 +326,33 @@ if __name__ == '__main__':
 		tool.check_cookie()
 		print('><><><><>><><><><')
 		print('>>>Setting:')
-		print('+Faebook max job(>30 job): ', end='')
-		limit_job = 30 if int(input())=='' else int(input())
-		loop_job = int(input('+Loop: '))
-		time_change = int(input('+Time change(>30s): '))
-		delay_from = int(input('+delay from: '))
-		delay_to = int(input('+delay to: '))
-		max_xu = int(input('><><><><>><><\n>>>>Max xu(n x 1000xu): '))*1000
+
+		print('+Faebook max NV(>30 job): ', end='')
+		limit_job =  int(input())
+		print('+Loop NV: ', end='')
+		loop_job = int(input())
+		print('+Time change FB(>30s): ', end='')
+		time_change = int(input())
+		print('+delay from: ', end='')
+		delay_from = int(input())
+		print('+delay to: ', end='')
+		delay_to = int(input(''))
+		print('><><><><>><><\n>>>>Max xu(n x 1000xu): ', end='')
+		max_xu = int(input())*1000
 		print('><><><><>><><')
+
 		cout_all = 1
 		dict_job = {}
 		cout_make_fb = {}
 		cout_failed = {}
 		cout_cookie_die = 0
 		check_close = False
+
 		while True:
 			check_cookie_die = True
 			for id_nick_fb in tool.list_cookie:
 				if id_nick_fb not in dict_job: dict_job[id_nick_fb]=[]
-				if id_nick_fb not in cout_make_fb: cout_make_fb[id_nick_fb]=0
+				if id_nick_fb not in cout_make_fb: cout_make_fb[id_nick_fb]=1
 				if id_nick_fb not in cout_failed: cout_failed[id_nick_fb]=0
 				if tool.list_cookie[id_nick_fb] != '': check_cookie_die = False
 			if check_cookie_die == True:
@@ -364,10 +371,11 @@ if __name__ == '__main__':
 						while True:
 							if len(dict_job[id_nick_fb])>0: break
 							dict_job[id_nick_fb] = tool.get_list_job(id_nick_fb)
+
 						job = random.choice(dict_job[id_nick_fb])
 						dict_job[id_nick_fb].remove(job)
 						temp = job.split('|')
-						print(f'>>>{cout_all}|{temp[1]}|', end='')
+						print(f'>>>{cout_all}|{temp[1]}|>{cout_make_fb[id_nick_fb]}<|', end='')
 						check = tool.make_all_fb(cookie, job)
 						if check == False:
 							print('Failed :(')
@@ -382,10 +390,9 @@ if __name__ == '__main__':
 								if cout_failed[id_nick_fb] >= 5:
 									kt = tool.get_token(cookie)
 									if kt!='': print('>>>Block interactive !!!<<<')
-									else:
-										print('>>>Checkpoint !!!<<<')
-										tool.list_cookie[id_nick_fb]==''
-										break
+									else: print('>>>Checkpoint !!!<<<')
+									tool.list_cookie[id_nick_fb]==''
+									break
 								continue
 							else:					
 								cout_failed[id_nick_fb] = 0
@@ -418,4 +425,4 @@ if __name__ == '__main__':
 			if check_close == True: break
 			
 	else: print('Login failed!!!')
-	print('Kết thúc tool!!!')
+	input('Kết thúc tool!!!')
