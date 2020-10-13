@@ -1,0 +1,52 @@
+{
+    "id": "100053899217922",
+    "birthday": "01/01/1989",
+    "education": [
+        {
+            "school": {
+                "id": "296550000449429",
+                "name": "Trường THPT Nam Khoái Châu ( Khoái Châu - Hưng Yên )"
+            },
+            "type": "High School",
+            "id": "109289900877650"
+        },
+        {
+            "school": {
+                "id": "997451277008668",
+                "name": "Trường Đại học Ngoại ngữ - Đại học Quốc gia Hà Nội"
+            },
+            "type": "College",
+            "id": "109289994210974"
+        }
+    ],
+    "email": "ttofr66258@mailvk.net",
+    "first_name": "Thành",
+    "gender": "male",
+    "hometown": {
+        "id": "110457042313059",
+        "name": "Hưng Yên"
+    },
+    "last_name": "Thanh",
+    "link": "https://www.facebook.com/profile.php?id=100053899217922",
+    "location": {
+        "id": "116054205074207",
+        "name": "Yen Tap, Hai Hung, Vietnam"
+    },
+    "locale": "vi_VN",
+    "name": "Thành Thanh",
+    "published_timeline": true,
+    "timezone": 7,
+    "updated_time": "2020-10-12T10:26:17+0000",
+    "verified": true,
+    "work": [
+        {
+            "end_date": "0000-00",
+            "employer": {
+                "id": "106388046062960",
+                "name": "Hà Nội"
+            },
+            "start_date": "0000-00",
+            "id": "109290024210971"
+        }
+    ]
+}

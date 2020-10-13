@@ -48,8 +48,9 @@ class tool_tds():
 		self.list_nick=list_nick
 
 	def cauhinh_nick(self, id_nick_fb):
-		url = f'https://traodoisub.com/scr/api_dat.php?user={self.username}&idfb={id_nick_fb}'
-		self.ses.get(url)
+		url = 'https://traodoisub.com/scr/datnick.php'
+		payload = {'iddat[]' : id_nick_fb}
+		self.ses.post(url, data=payload)
 
 	def get_headers(self, cookie):
 		headers = {
@@ -129,6 +130,8 @@ class tool_tds():
 							break
 					if check==False: print(f'Line {cout}: TDS no have ID!!!')
 				cout+=1
+			f.close()
+
 	def get_list_job(self, id_nick_fb):
 		list_job = []
 		self.cauhinh_nick(id_nick_fb)
@@ -292,7 +295,7 @@ class tool_tds():
 		return check
 
 	def finish_job(self, name_job, id_job):
-		tool.cauhinh_nick(id_nick_fb)
+		self.cauhinh_nick(id_nick_fb)
 		payload = {'id':id_job}
 		if name_job == 'SUB':
 			requests_url = 'https://traodoisub.com/ex/follow/nhantien.php'
@@ -368,7 +371,7 @@ if __name__ == '__main__':
 			for id_nick_fb in list_nick:
 				cookie = tool.list_cookie[id_nick_fb]
 				if cookie=='': continue
-				tool.cauhinh_nick(id_nick_fb)
+				
 				print('\n++>>FB make:',tool.list_nick[id_nick_fb])
 				cout = 0
 				while True:
