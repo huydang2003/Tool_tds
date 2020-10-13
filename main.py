@@ -229,7 +229,6 @@ class tool_tds():
 		headers = self.get_headers(cookie)
 		res = self.ses.get(link, headers=headers)
 		soup = BeautifulSoup(res.content, 'html.parser')
-		soup = soup.body.find(id="root")
 		check = False
 		list_a = soup.find_all('a')
 		if list_a == []: return check
@@ -423,8 +422,8 @@ if __name__ == '__main__':
 								if cout >= loop_job: break
 					except:
 						while True:
-							print('Lỗi mạng đợi 10s!!!')
-							sleep(10)
+							print('Lỗi mạng đợi 5s!!!')
+							sleep(5)
 							check = tool.login_tds()
 							if check != False: break
 				if check_close == True: break
