@@ -312,7 +312,7 @@ class tool_tds():
 		return res.text, xu
 
 def run_tool(tool):
-	color = {'RED':'\033[91m', 'GREEN':'\033[32m', 'WHITE':'\033[37m'}
+	color = {'RED':'\033[91m', 'GREEN':'\033[32m', 'WHITE':'\033[37m', 'BLUE':'\033[34m'}
 	print('><><><><>><><><><')
 	print('>>>Setting:')
 
@@ -385,13 +385,13 @@ def run_tool(tool):
 								tool.list_ct[id_nick_fb]['cookie']=''
 								break
 							if tool.xu >= max_xu:
-								print('><><><>><><><><')
+								print('\n><><><>><><><><')
 								print(f'{color["WHITE"]}>>>Đã kiếm đủ {max_xu} xu!!!')
 								print('><><><>><><><><')
 								check_close = True
 								break
 							s = random.randint(delay_from, delay_to)
-							print(f'{color["WHITE"]}>>wait {s}s')
+							print(f'{color["BLUE"]}>>wait {s}s')
 							sleep(s)
 							if cout >= loop_job: break
 					elif check == 0:
@@ -414,7 +414,7 @@ def run_tool(tool):
 						check = tool.login_tds()
 						if check != False: break
 			if check_close == True: break
-			print(f'{color["WHITE"]}[Change FB after {time_change}s]')
+			print(f'{color["BLUE"]}[Change FB after {time_change}s]')
 			sleep(time_change)
 		if check_close == True: break
 		print(f'{color["WHITE"]}',end='')	
