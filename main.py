@@ -364,12 +364,6 @@ def run_tool(tool):
 						if type_kq != '2':
 							print('>>>failed :(')
 							cout_failed[id_nick_fb]+=1
-							if cout_failed[id_nick_fb] >= 3:
-								kt = tool.get_token(cookie)
-								if kt=='':
-									print('>>>checkpoint !!!<<<')
-									tool.list_ct[id_nick_fb]['cookie']==''
-									break
 						else:
 							cout_failed[id_nick_fb] = 0
 							cout_make_fb[id_nick_fb] += 1
@@ -391,10 +385,17 @@ def run_tool(tool):
 							if cout >= loop_job: break
 					elif check == 0:
 						print('>>>error link!!!')
+						cout_failed[id_nick_fb]+=1
 					elif check==2:
 						print('>>>Block tt!!!')
 						tool.list_ct[id_nick_fb]['cookie']=''
-						break				
+						break
+					if cout_failed[id_nick_fb] >= 7:
+						kt = tool.get_token(cookie)
+						if kt!='': continue
+						print('>>>checkpoint !!!<<<')
+						tool.list_ct[id_nick_fb]['cookie']==''
+						break			
 				except:
 					while True:
 						print('[lỗi mạng đợi 5s!!!]')
@@ -407,15 +408,10 @@ def run_tool(tool):
 		if check_close == True: break		
 	
 
-
 if __name__ == '__main__':
 	if not path.exists('nicks'): mkdir('nicks')
-	system('cls')
 	username = input('>>>UserName: ')
 	password = input('>>>PassWord: ')
-	system('cls')
-	# username = 'huymalk1'
-	# password = 'doccos102'
 	tool = tool_tds(username, password)
 	check = tool.login_tds()
 	if check == True:
@@ -425,5 +421,5 @@ if __name__ == '__main__':
 		tool.check_cookie()
 		run_tool(tool)
 	else: print('Login failed!!!')
-	input('Kết thúc tool!!!')
+	print('Kết thúc tool!!!')
 		
