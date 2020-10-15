@@ -6,6 +6,14 @@ import random
 from time import sleep
 import re
 
+CRED    = '\033[31m'
+CGREEN  = '\033[32m'
+CYELLOW = '\033[33m'
+CBLUE   = '\033[34m'
+CVIOLET = '\033[35m'
+CBEIGE  = '\033[36m'
+CWHITE  = '\033[37m'
+
 class tool_tds():
 	def __init__(self, username, password):
 		self.username = username
@@ -304,6 +312,7 @@ class tool_tds():
 		return res.text, xu
 
 def run_tool(tool):
+	color = {'RED':'\033[91m', 'GREEN':'\033[32m', 'WHITE':'\033[37m'}
 	print('><><><><>><><><><')
 	print('>>>Setting:')
 
@@ -354,7 +363,7 @@ def run_tool(tool):
 					job = random.choice(dict_job[id_nick_fb])
 					dict_job[id_nick_fb].remove(job)
 					temp = job.split('|')
-					print(f'>>>{cout_all}|{temp[1]}|>{cout_make_fb[id_nick_fb]}<|link: {temp[2]}')
+					print(f'{color["WHITE"]}>>>{cout_all}|{temp[1]}|>{cout_make_fb[id_nick_fb]}<|link: {temp[2]}')
 					print('\t', end='')
 					check = tool.make_all_fb(cookie, token, job)
 					if check == 1:
@@ -362,7 +371,7 @@ def run_tool(tool):
 						type_kq = kq[0]
 						xu = kq[1]
 						if type_kq != '2':
-							print('>>>failed :(')
+							print(f'{color["RED"]}>>>failed :(')
 							cout_failed[id_nick_fb]+=1
 						else:
 							cout_failed[id_nick_fb] = 0
@@ -370,42 +379,45 @@ def run_tool(tool):
 							cout+=1
 							tool.xu+=xu
 							cout_all+=1
-							print(f'>>>success|>+{xu}<|{tool.xu} xu', end=' ')
+							print(f'{color["GREEN"]}>>>success|>+{xu}<|{tool.xu} xu', end=' ')
 							if cout_make_fb[id_nick_fb] > limit_job:
-								print('\n>>>kịch rồi!!!<<<')
+								print(f'\n{color["WHITE"]}>>>kịch rồi!!!<<<')
 								tool.list_ct[id_nick_fb]['cookie']=''
 								break
 							if tool.xu >= max_xu:
-								print(f'\n><><><>><><><><\n>>>Đã kiếm đủ {max_xu} xu!!!\n><><><>><><><><')
+								print('><><><>><><><><')
+								print(f'{color["WHITE"]}>>>Đã kiếm đủ {max_xu} xu!!!')
+								print('><><><>><><><><')
 								check_close = True
 								break
 							s = random.randint(delay_from, delay_to)
-							print(f'>>wait {s}s')
+							print(f'{color["WHITE"]}>>wait {s}s')
 							sleep(s)
 							if cout >= loop_job: break
 					elif check == 0:
-						print('>>>error link!!!')
+						print(f'{color["RED"]}>>>error link!!!')
 						cout_failed[id_nick_fb]+=1
 					elif check==2:
-						print('>>>Block tt!!!')
+						print(f'{color["RED"]}>>>Block tt!!!')
 						tool.list_ct[id_nick_fb]['cookie']=''
 						break
 					if cout_failed[id_nick_fb] >= 7:
 						kt = tool.get_token(cookie)
 						if kt!='': continue
-						print('>>>checkpoint !!!<<<')
+						print(f'{color["RED"]}>>>checkpoint !!!<<<')
 						tool.list_ct[id_nick_fb]['cookie']==''
 						break			
 				except:
 					while True:
-						print('[lỗi mạng đợi 5s!!!]')
+						print(f'{color["RED"]}[lỗi mạng đợi 5s!!!]')
 						sleep(5)
 						check = tool.login_tds()
 						if check != False: break
 			if check_close == True: break
-			print(f'[Change FB after {time_change}s]')
+			print(f'{color["WHITE"]}[Change FB after {time_change}s]')
 			sleep(time_change)
-		if check_close == True: break		
+		if check_close == True: break
+		print(f'{color["WHITE"]}',end='')	
 	
 
 if __name__ == '__main__':
