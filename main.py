@@ -14,7 +14,7 @@ class tool_tds():
 		self.xu = None
 		self.list_nick = None
 		self.path_index = None
-		self.list_cookie = {}
+		self.list_ct = {}
 
 	def login_tds(self):
 		url = 'https://traodoisub.com/scr/login.php'
@@ -116,12 +116,14 @@ class tool_tds():
 					check = False
 					for id_nick_fb in self.list_nick:
 						if user_id == id_nick_fb:
-							check = self.get_token(cookie)
-							if check=='':
+							token = self.get_token(cookie)
+							if token=='':
 								print(f'Line {cout}: {self.list_nick[user_id]} >> cookie die!!!')
 								break
+							self.list_ct[user_id] = {}
 							print(f'Line {cout}: {self.list_nick[user_id]} >> cookie live!!!')
-							self.list_cookie[user_id] = cookie
+							self.list_ct[user_id]['cookie'] = cookie
+							self.list_ct[user_id]['token'] = token
 							path_file_backup = f'nicks/{self.username}/{user_id}'
 							if not path.exists(path_file_backup):
 								mkdir(path_file_backup)
@@ -157,12 +159,13 @@ class tool_tds():
 					title = y.get('title')
 					temp = y.get('onclick').split("'")
 					id_job = temp[1]
+					if '_' in id_job: continue
 					name_job = url[1]
 					if url[0] == '/reaction/': name_job = temp[5]
 					data_job = id_job+'|'+name_job+'|'+title
 					list_job.append(data_job)
 					cout += 1
-					if cout >= 7: break
+					if cout >= 10: break
 			elif url[0] == '/comment/':
 				card = soup.find_all(class_='col-md-3')
 				for y in card:
@@ -182,32 +185,45 @@ class tool_tds():
 		link = res.url.replace('/www.', '/mbasic.')
 		return link
 
-	def make_job_sub(self, cookie, link):
-		link = link.replace('/www.', '/mbasic.')
-		headers = self.get_headers(cookie)
-		res = self.ses.get(link, headers=headers)
-		soup = BeautifulSoup(res.content, 'html.parser')
-		soup = soup.body.find(id="root")
-		check = False
-		list_a = soup.find_all('a')
-		if list_a == []: return check
-		for a in list_a:
-			url = a.get('href')
-			if '/subscribe.php' in url:
-				check = True
-				break
-		if check == True:
-			link = 'https://mbasic.facebook.com'+url
-			self.ses.get(link, headers=headers)
-		return check
+	def make_job_like(self, token, id_ob):
+		params = {'access_token': token}
+		url = f'https://graph.facebook.com/{id_ob}/likes'
+		res = self.ses.post(url, params=params)
+		data = res.json()
+		if data == True: return 1
+		else:
+			if data['error']['code'] != 368: return 0
+			else: return 2
+
+	def make_job_sub(self, token, id_ob):
+		params = {'access_token': token}
+		url = f'https://graph.facebook.com/{id_ob}/subscribers'
+		res = self.ses.post(url, params=params)
+		data = res.json()
+		if data == True: return 1
+		else:
+			if data['error']['code'] != 368: return 0
+			else: return 2
+
+	def make_job_comment(self, token, id_ob, content):
+		params = {'access_token': token, 'message':content}
+		url = f'https://graph.facebook.com/{id_ob}/comments'
+		res = self.ses.post(url, params=params)
+		data = res.json()
+		if 'id' in data: return 1
+		else:
+			if data['error']['code'] != 368: return 0
+			else: return 2
 
 	def make_job_page(self, cookie, link):
-		link = self.fill_link(link)
+		temp = self.ses.head(link).headers
+		if 'Location' in temp: link = temp['Location'].replace('/www.', '/mbasic.')
+		else: return 0
 		headers = self.get_headers(cookie)
 		res = self.ses.get(link, headers=headers)
 		soup = BeautifulSoup(res.content, 'html.parser')
 		soup = soup.body.find(id="root")
-		check = False
+		check = 0
 		list_table = soup.find_all('table')
 		if list_table == []: return check
 		for table in list_table:
@@ -216,86 +232,57 @@ class tool_tds():
 				for a in list_a:
 					url = a.get('href')
 					if '/profile.php' in url:
-						check = True
+						check = 1
 						break
-				if check == True: break
-		if check == True:
+				if check == 1: break
+		if check == 1:
 			link = 'https://mbasic.facebook.com'+url
 			self.ses.get(link, headers=headers)
 		return check
 
-	def make_job_reaction(self, cookie, link, reaction):
-		link = self.fill_link(link)
-		headers = self.get_headers(cookie)
-		res = self.ses.get(link, headers=headers)
-		soup = BeautifulSoup(res.content, 'html.parser')
-		check = False
-		list_a = soup.find_all('a')
-		if list_a == []: return check
-		for a in list_a:
-			url = a.get('href')
-			if '/reactions/' in url:
-				check = True
-				break
-		if check == True:
-			link = 'https://mbasic.facebook.com' + url
+	def make_job_reaction(self, cookie, token, id_ob, reaction):
+		check = self.make_job_like(token, id_ob)
+		if check==0: return 0
+		elif check==2: return 2
+		else:
+			dict_reaction = {'LIKE':0, 'LOVE':1, 'TT':2, 'HAHA':3, 'WOW':4, 'SAD':5, 'ANGRY':6}
+			link = 'https://mbasic.facebook.com/reactions/picker/?is_permalink=1&ft_id='+id_ob
+			headers = self.get_headers(cookie)
 			res = self.ses.get(link, headers=headers)
 			soup = BeautifulSoup(res.content, 'html.parser')
 			soup = soup.body.find(id='root')
-			f = soup.find_all('li')
-			dict_reactions = {'LIKE':0, 'LOVE':1, 'TT':2, 'HAHA':3, 'WOW':4, 'SAD':5, 'ANGRY':6}
-			vt = dict_reactions[reaction]
-			url = f[vt].a.get('href')	
+			list_li = soup.find_all('li')	
+			vt = dict_reaction[reaction]
+			url = list_li[vt].a.get('href')	
 			link = 'https://mbasic.facebook.com' + url
 			self.ses.get(link, headers=headers)
-		return check
+			return check
 
-	def make_job_comment(self, cookie, link, content):
-		link = self.fill_link(link)
-		headers = self.get_headers(cookie)
-		res = self.ses.get(link, headers=headers)
-		soup = BeautifulSoup(res.content, 'html.parser')
-		soup = soup.body.find(id="root")
-		check = False
-		list_form = soup.find_all('form')
-		if list_form == []: return check
-		for form in list_form:
-			url = form.get('action')
-			if '/comment.php?' in url:
-				ls_input = form.find_all('input')
-				payload = {'comment_text': content, 'fb_dtsg': '', 'jazoest': ''}
-				for i in ls_input:
-					if i.get('name') == 'fb_dtsg': payload['fb_dtsg'] = i.get('value')
-					if i.get('name') == 'jazoest': payload['jazoest'] = i.get('value')
-				check = True
-				break
-		if check == True:
-			link = 'https://mbasic.facebook.com' + url
-			self.ses.post(link, data=payload, headers=headers)
-		return check
-
-
-	def make_all_fb(self, cookie, job):
+	def make_all_fb(self, cookie, token, job):
 		temp = job.split('|')
-		id_job = temp[0]
+		id_ob = temp[0]
 		name_job = temp[1]
 		link = temp[2]
 		if name_job == 'SUB':
-			check = self.make_job_sub(cookie, link)
+			check = self.make_job_sub(token, id_ob)
 		elif name_job == 'PAGE':
 			check = self.make_job_page(cookie, link)
+		elif name_job == 'LIKE':
+			check = self.make_job_like(token, id_ob)
 		elif name_job == 'CMT':
 			content = temp[3]
-			check = self.make_job_comment(cookie, link, content)
+			check = self.make_job_comment(token, id_ob, content)
 		else:
 			reaction = name_job
-			check = self.make_job_reaction(cookie, link, reaction)
-		if check==True: return name_job, id_job
+			check = self.make_job_reaction(cookie, token, id_ob, reaction)
 		return check
 
-	def finish_job(self, name_job, id_job):
+	def finish_job(self, id_nick_fb, job):
 		self.cauhinh_nick(id_nick_fb)
-		payload = {'id':id_job}
+		temp = job.split('|')
+		id_ob = temp[0]
+		name_job = temp[1]
+		payload = {'id':id_ob}
 		if name_job == 'SUB':
 			requests_url = 'https://traodoisub.com/ex/follow/nhantien.php'
 			xu = 600
@@ -313,17 +300,122 @@ class tool_tds():
 			requests_url = 'https://traodoisub.com/ex/reaction/nhantien.php'
 			xu = 400
 		res = self.ses.post(requests_url, data=payload)
-		kq = res.text
-		if kq == '2': return xu
-		return False
+		# if res.text == '2': return xu
+		return res.text, xu
 
-					
+def run_tool(tool):
+	print('><><><><>><><><><')
+	print('>>>Setting:')
+
+	print('+Faebook max NV(>30 job): ', end='')
+	limit_job =  int(input())
+	print('+Loop NV: ', end='')
+	loop_job = int(input())
+	print('+Time change FB(>30s): ', end='')
+	time_change = int(input())
+	print('+delay from: ', end='')
+	delay_from = int(input())
+	print('+delay to: ', end='')
+	delay_to = int(input(''))
+	print('><><><><>><><\n>>>>Max xu(n x 1000xu): ', end='')
+	max_xu = int(input())*1000
+	print('><><><><>><><')
+
+	cout_all = 1
+	dict_job = {}
+	cout_make_fb = {}
+	cout_failed = {}
+	cout_cookie_die = 0
+	check_close = False
+
+	while True:
+		check_cookie_die = True
+		for id_nick_fb in tool.list_ct:
+			if id_nick_fb not in dict_job: dict_job[id_nick_fb]=[]
+			if id_nick_fb not in cout_make_fb: cout_make_fb[id_nick_fb]=1
+			if id_nick_fb not in cout_failed: cout_failed[id_nick_fb]=0
+			if tool.list_ct[id_nick_fb]['cookie'] != '': check_cookie_die = False
+		if check_cookie_die == True:
+			print('>>>Hết nick chạy!!!<<<')
+			break
+		list_nick = list(tool.list_ct.keys())
+		random.shuffle(list_nick)
+		for id_nick_fb in list_nick:
+			token = tool.list_ct[id_nick_fb]['token']
+			cookie = tool.list_ct[id_nick_fb]['cookie']
+			if cookie=='': continue	
+			print('\n++>>FB make:',tool.list_nick[id_nick_fb])
+			cout = 0
+			while True:
+				try:
+					while True:
+						if len(dict_job[id_nick_fb])>0: break
+						dict_job[id_nick_fb] = tool.get_list_job(id_nick_fb)
+					job = random.choice(dict_job[id_nick_fb])
+					dict_job[id_nick_fb].remove(job)
+					temp = job.split('|')
+					print(f'>>>{cout_all}|{temp[1]}|>{cout_make_fb[id_nick_fb]}<|link: {temp[2]}')
+					print('\t', end='')
+					check = tool.make_all_fb(cookie, token, job)
+					if check == 1:
+						kq = tool.finish_job(id_nick_fb, job)
+						type_kq = kq[0]
+						xu = kq[1]
+						if type_kq != '2':
+							print('>>>failed :(')
+							cout_failed[id_nick_fb]+=1
+							if cout_failed[id_nick_fb] >= 3:
+								kt = tool.get_token(cookie)
+								if kt=='':
+									print('>>>checkpoint !!!<<<')
+									tool.list_ct[id_nick_fb]['cookie']==''
+									break
+						else:
+							cout_failed[id_nick_fb] = 0
+							cout_make_fb[id_nick_fb] += 1
+							cout+=1
+							tool.xu+=xu
+							cout_all+=1
+							print(f'>>>success|>+{xu}<|{tool.xu} xu', end=' ')
+							if cout_make_fb[id_nick_fb] > limit_job:
+								print('\n>>>kịch rồi!!!<<<')
+								tool.list_ct[id_nick_fb]['cookie']=''
+								break
+							if tool.xu >= max_xu:
+								print(f'\n><><><>><><><><\n>>>Đã kiếm đủ {max_xu} xu!!!\n><><><>><><><><')
+								check_close = True
+								break
+							s = random.randint(delay_from, delay_to)
+							print(f'>>wait {s}s')
+							sleep(s)
+							if cout >= loop_job: break
+					elif check == 0:
+						print('>>>error link!!!')
+					elif check==2:
+						print('>>>Block tt!!!')
+						tool.list_ct[id_nick_fb]['cookie']=''
+						break				
+				except:
+					while True:
+						print('[lỗi mạng đợi 5s!!!]')
+						sleep(5)
+						check = tool.login_tds()
+						if check != False: break
+			if check_close == True: break
+			print(f'[Change FB after {time_change}s]')
+			sleep(time_change)
+		if check_close == True: break		
+	
+
+
 if __name__ == '__main__':
 	if not path.exists('nicks'): mkdir('nicks')
 	system('cls')
 	username = input('>>>UserName: ')
 	password = input('>>>PassWord: ')
 	system('cls')
+	# username = 'huymalk1'
+	# password = 'doccos102'
 	tool = tool_tds(username, password)
 	check = tool.login_tds()
 	if check == True:
@@ -331,105 +423,7 @@ if __name__ == '__main__':
 		print('><><><><><><><\n>>>Xu:', tool.xu,'xu\n><><><><><><><\n')
 		print('>>>Checking cookie...\n><><><><>><><><><')
 		tool.check_cookie()
-		print('><><><><>><><><><')
-		print('>>>Setting:')
-
-		print('+Faebook max NV(>30 job): ', end='')
-		limit_job =  int(input())
-		print('+Loop NV: ', end='')
-		loop_job = int(input())
-		print('+Time change FB(>30s): ', end='')
-		time_change = int(input())
-		print('+delay from: ', end='')
-		delay_from = int(input())
-		print('+delay to: ', end='')
-		delay_to = int(input(''))
-		print('><><><><>><><\n>>>>Max xu(n x 1000xu): ', end='')
-		max_xu = int(input())*1000
-		print('><><><><>><><')
-
-		cout_all = 1
-		dict_job = {}
-		cout_make_fb = {}
-		cout_failed = {}
-		cout_cookie_die = 0
-		check_close = False
-
-		while True:
-			check_cookie_die = True
-			for id_nick_fb in tool.list_cookie:
-				if id_nick_fb not in dict_job: dict_job[id_nick_fb]=[]
-				if id_nick_fb not in cout_make_fb: cout_make_fb[id_nick_fb]=1
-				if id_nick_fb not in cout_failed: cout_failed[id_nick_fb]=0
-				if tool.list_cookie[id_nick_fb] != '': check_cookie_die = False
-			if check_cookie_die == True:
-				print('>>>Hết nick chạy!!!<<<')
-				break
-			list_nick = list(tool.list_cookie.keys())
-			random.shuffle(list_nick)
-			for id_nick_fb in list_nick:
-				cookie = tool.list_cookie[id_nick_fb]
-				if cookie=='': continue
-				
-				print('\n++>>FB make:',tool.list_nick[id_nick_fb])
-				cout = 0
-				while True:
-					try:
-						while True:
-							if len(dict_job[id_nick_fb])>0: break
-							dict_job[id_nick_fb] = tool.get_list_job(id_nick_fb)
-
-						job = random.choice(dict_job[id_nick_fb])
-						dict_job[id_nick_fb].remove(job)
-						temp = job.split('|')
-						print(f'>>>{cout_all}|{temp[1]}|>{cout_make_fb[id_nick_fb]}<|', end='')
-						check = tool.make_all_fb(cookie, job)
-						if check == False:
-							print('Failed :(')
-							cout_failed[id_nick_fb]+=1	
-						else:
-							name_job = check[0]
-							id_job = check[1]
-							check = tool.finish_job(name_job, id_job)
-							if check == False:
-								cout_failed[id_nick_fb]+=1
-								print('Failed :(')
-								if cout_failed[id_nick_fb] >= 5:
-									kt = tool.get_token(cookie)
-									if kt!='': print('>>>Block interactive !!!<<<')
-									else: print('>>>Checkpoint !!!<<<')
-									tool.list_cookie[id_nick_fb]==''
-									break
-								continue
-							else:					
-								cout_failed[id_nick_fb] = 0
-								cout_make_fb[id_nick_fb] += 1
-								cout+=1
-								tool.xu+=check
-								cout_all+=1
-								print(f'Success|>+{check}<|{tool.xu} xu', end='')
-								if cout_make_fb[id_nick_fb] >= limit_job:
-									print('\n>>>kịch rồi!!!<<<')
-									tool.list_cookie[id_nick_fb]=''
-									break
-								if tool.xu >= max_xu:
-									print(f'>>>Đã kiếm đủ {max_xu} xu!!!')
-									check_close = True
-									break
-								s = random.randint(delay_from, delay_to)
-								print(f' >>delay {s}s')
-								sleep(s)
-								if cout >= loop_job: break
-					except:
-						while True:
-							print('Lỗi mạng đợi 5s!!!')
-							sleep(5)
-							check = tool.login_tds()
-							if check != False: break
-				if check_close == True: break
-				print(f'\n>>>Change FB...{time_change}s')
-				sleep(time_change)
-			if check_close == True: break
-			
+		run_tool(tool)
 	else: print('Login failed!!!')
 	input('Kết thúc tool!!!')
+		

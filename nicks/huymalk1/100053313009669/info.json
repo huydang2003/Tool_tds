@@ -1,0 +1,33 @@
+{
+    "id": "100053313009669",
+    "birthday": "12/07/2000",
+    "education": [
+        {
+            "school": {
+                "id": "420861054642703",
+                "name": "THPT Nam Phù Cừ"
+            },
+            "type": "High School",
+            "id": "105043644616069"
+        }
+    ],
+    "email": "tuo12739@cuoly.com",
+    "first_name": "Hiền",
+    "gender": "female",
+    "hometown": {
+        "id": "115483055132880",
+        "name": "Phù Cừ"
+    },
+    "last_name": "Đặng",
+    "link": "https://www.facebook.com/profile.php?id=100053313009669",
+    "location": {
+        "id": "110457042313059",
+        "name": "Hưng Yên"
+    },
+    "locale": "vi_VN",
+    "name": "Đặng Hiền",
+    "published_timeline": true,
+    "timezone": 7,
+    "updated_time": "2020-10-14T23:31:59+0000",
+    "verified": true
+}
