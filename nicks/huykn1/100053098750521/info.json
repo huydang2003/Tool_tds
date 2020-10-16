@@ -1,0 +1,44 @@
+{
+    "id": "100053098750521",
+    "birthday": "11/07/1997",
+    "education": [
+        {
+            "school": {
+                "id": "288677691254702",
+                "name": "Trường Đại học Kinh tế - Đại học Quốc gia Hà Nội"
+            },
+            "type": "College",
+            "id": "105156947930930"
+        }
+    ],
+    "email": "xmseqx0315@mailres.net",
+    "first_name": "Ly",
+    "gender": "female",
+    "hometown": {
+        "id": "106388046062960",
+        "name": "Hà Nội"
+    },
+    "last_name": "Khanh",
+    "link": "https://www.facebook.com/profile.php?id=100053098750521",
+    "location": {
+        "id": "106388046062960",
+        "name": "Hà Nội"
+    },
+    "locale": "vi_VN",
+    "name": "Ly Khanh",
+    "published_timeline": true,
+    "timezone": 7,
+    "updated_time": "2020-09-24T16:20:09+0000",
+    "verified": true,
+    "work": [
+        {
+            "end_date": "0000-00",
+            "employer": {
+                "id": "106388046062960",
+                "name": "Hà Nội"
+            },
+            "start_date": "0000-00",
+            "id": "105157257930899"
+        }
+    ]
+}

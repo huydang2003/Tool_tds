@@ -1,0 +1,52 @@
+{
+    "id": "100053677550761",
+    "birthday": "10/17/1999",
+    "education": [
+        {
+            "school": {
+                "id": "386151631471673",
+                "name": "THPT Nam Phù Cừ"
+            },
+            "type": "College",
+            "id": "112861723846412"
+        },
+        {
+            "school": {
+                "id": "420861054642703",
+                "name": "THPT Nam Phù Cừ"
+            },
+            "type": "High School",
+            "id": "112853997180518"
+        }
+    ],
+    "email": "rgwvfo5046@dnawr.com",
+    "first_name": "Hoàng Hiếu",
+    "gender": "male",
+    "hometown": {
+        "id": "110457042313059",
+        "name": "Hưng Yên"
+    },
+    "last_name": "Nguyễn",
+    "link": "https://www.facebook.com/profile.php?id=100053677550761",
+    "location": {
+        "id": "110457042313059",
+        "name": "Hưng Yên"
+    },
+    "locale": "vi_VN",
+    "name": "Nguyễn Hoàng Hiếu",
+    "published_timeline": true,
+    "timezone": 7,
+    "updated_time": "2020-09-23T09:27:29+0000",
+    "verified": true,
+    "work": [
+        {
+            "end_date": "0000-00",
+            "employer": {
+                "id": "420861054642703",
+                "name": "THPT Nam Phù Cừ"
+            },
+            "start_date": "2017-04-26",
+            "id": "112861830513068"
+        }
+    ]
+}

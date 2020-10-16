@@ -1,0 +1,52 @@
+{
+    "id": "100053114406761",
+    "birthday": "12/06/2000",
+    "education": [
+        {
+            "school": {
+                "id": "314941235380717",
+                "name": "Đại học Tài chính - Quản trị kinh doanh"
+            },
+            "type": "College",
+            "id": "102970278150119"
+        },
+        {
+            "school": {
+                "id": "133953143327992",
+                "name": "THPT HƯNG YÊN"
+            },
+            "type": "High School",
+            "id": "102970238150123"
+        }
+    ],
+    "email": "wxsjgii575@netmail9.com",
+    "first_name": "Yến",
+    "gender": "female",
+    "hometown": {
+        "id": "110457042313059",
+        "name": "Hưng Yên"
+    },
+    "last_name": "Ánh",
+    "link": "https://www.facebook.com/profile.php?id=100053114406761",
+    "location": {
+        "id": "115625655120601",
+        "name": "Xam Kho, Hai Hung, Vietnam"
+    },
+    "locale": "vi_VN",
+    "name": "Ánh Yến",
+    "published_timeline": true,
+    "timezone": 7,
+    "updated_time": "2020-09-23T09:20:33+0000",
+    "verified": true,
+    "work": [
+        {
+            "end_date": "0000-00",
+            "employer": {
+                "id": "106388046062960",
+                "name": "Hà Nội"
+            },
+            "start_date": "0000-00",
+            "id": "102970298150117"
+        }
+    ]
+}

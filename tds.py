@@ -6,14 +6,6 @@ import random
 from time import sleep
 import re
 
-CRED    = '\033[31m'
-CGREEN  = '\033[32m'
-CYELLOW = '\033[33m'
-CBLUE   = '\033[34m'
-CVIOLET = '\033[35m'
-CBEIGE  = '\033[36m'
-CWHITE  = '\033[37m'
-
 class tool_tds():
 	def __init__(self, username, password):
 		self.username = username
@@ -336,6 +328,7 @@ def run_tool(tool):
 	cout_failed = {}
 	cout_cookie_die = 0
 	check_close = False
+	list_job_error = []
 
 	while True:
 		check_cookie_die = True
@@ -353,7 +346,7 @@ def run_tool(tool):
 			token = tool.list_ct[id_nick_fb]['token']
 			cookie = tool.list_ct[id_nick_fb]['cookie']
 			if cookie=='': continue	
-			print('\n++>>FB make:',tool.list_nick[id_nick_fb])
+			print(f'\n{color["WHITE"]}++>>FB make:', tool.list_nick[id_nick_fb])
 			cout = 0
 			while True:
 				try:
@@ -363,7 +356,10 @@ def run_tool(tool):
 					job = random.choice(dict_job[id_nick_fb])
 					dict_job[id_nick_fb].remove(job)
 					temp = job.split('|')
-					print(f'{color["WHITE"]}>>>{cout_all}|{temp[1]}|>{cout_make_fb[id_nick_fb]}<|link: {temp[2]}')
+					name_job = temp[1]
+					link_job = temp[2]
+					if link_job in list_job_error: continue
+					print(f'{color["WHITE"]}>>>{cout_all}|{name_job}|>{cout_make_fb[id_nick_fb]}<|link: {link_job}')
 					print('\t', end='')
 					check = tool.make_all_fb(cookie, token, job)
 					if check == 1:
@@ -396,16 +392,19 @@ def run_tool(tool):
 							if cout >= loop_job: break
 					elif check == 0:
 						print(f'{color["RED"]}>>>error link!!!')
+						list_job_error.append(link_job)
+						if len(list_job_error) > 100: list_job_error=[]
 						cout_failed[id_nick_fb]+=1
 					elif check==2:
 						print(f'{color["RED"]}>>>Block tt!!!')
 						tool.list_ct[id_nick_fb]['cookie']=''
 						break
-					if cout_failed[id_nick_fb] >= 7:
+					if cout_failed[id_nick_fb] > 11:
 						kt = tool.get_token(cookie)
 						if kt!='': continue
 						print(f'{color["RED"]}>>>checkpoint !!!<<<')
-						tool.list_ct[id_nick_fb]['cookie']==''
+						tool.list_ct[id_nick_fb]['cookie']=''
+						list_job_error = list_job_error[0:20]
 						break			
 				except:
 					while True:
@@ -417,13 +416,13 @@ def run_tool(tool):
 			print(f'{color["BLUE"]}[Change FB after {time_change}s]')
 			sleep(time_change)
 		if check_close == True: break
-		print(f'{color["WHITE"]}',end='')	
 	
 
 if __name__ == '__main__':
 	if not path.exists('nicks'): mkdir('nicks')
 	username = input('>>>UserName: ')
 	password = input('>>>PassWord: ')
+	system('clear')
 	tool = tool_tds(username, password)
 	check = tool.login_tds()
 	if check == True:
