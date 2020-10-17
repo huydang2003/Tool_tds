@@ -366,7 +366,7 @@ def run_tool(tool):
 							print(f'{color["GREEN"]}>>>success|>+{xu}<|{tool.xu} xu', end=' ')
 							if cout_make_fb[id_nick_fb] > limit_job:
 								print(f'\n{color["WHITE"]}>>>kịch rồi!!!<<<')
-								tool.list_ct[id_nick_fb]['cookie']=''
+								list_nick_block.append(id_nick_fb)
 								break
 							if tool.xu >= max_xu:
 								print('\n><><><>><><><><')
@@ -402,6 +402,9 @@ def run_tool(tool):
 			sleep(time_change)
 		print(f'{color["WHITE"]}')
 		if check_close == True: break
+		if len(list_nick_block) >= len(tool.list_nick):
+		    print('Hết nick chạy rồi !!!')
+			break
 		if cout_nick_checkpoint >= len(tool.list_nick):
 			print('Die hết nick rồi :(')
 			break
