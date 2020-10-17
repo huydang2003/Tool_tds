@@ -1,0 +1,59 @@
+{
+    "id": "100042208754730",
+    "birthday": "11/05/2000",
+    "education": [
+        {
+            "school": {
+                "id": "712767965438749",
+                "name": "Trường THCS Hoa Hồng Bạch"
+            },
+            "type": "High School",
+            "id": "222930019123955"
+        }
+    ],
+    "email": "yapejik684@arasj.net",
+    "favorite_athletes": [
+        {
+            "id": "102124701551885",
+            "name": "Nguyễn Thành Chung"
+        },
+        {
+            "id": "268782333594523",
+            "name": "Levi"
+        }
+    ],
+    "favorite_teams": [
+        {
+            "id": "329889207365800",
+            "name": "Câu Lạc Bộ Bóng Đá Năng Khiếu Hải An - Tây Ninh"
+        },
+        {
+            "id": "168052290441434",
+            "name": "CLB Bóng Đá Hoàng Anh Gia Lai"
+        },
+        {
+            "id": "381091195652138",
+            "name": "Haiphong Football Club"
+        }
+    ],
+    "first_name": "Anhh",
+    "gender": "male",
+    "hometown": {
+        "id": "114183551925573",
+        "name": "Thái Bình"
+    },
+    "last_name": "Dinhh",
+    "link": "https://www.facebook.com/thailam.hoang.98837399",
+    "location": {
+        "id": "114183551925573",
+        "name": "Thái Bình"
+    },
+    "locale": "vi_VN",
+    "middle_name": "Hoangg",
+    "name": "Dinhh Hoangg Anhh",
+    "published_timeline": true,
+    "timezone": 7,
+    "updated_time": "2020-10-16T19:05:22+0000",
+    "username": "thailam.hoang.98837399",
+    "verified": true
+}

@@ -318,24 +318,24 @@ def run_tool(tool):
 	list_nick_block = []
 
 	while True:
-		for id_nick_fb in tool.list_ct:
+		for id_nick_fb in tool.list_nick:
 			if id_nick_fb not in dict_job: dict_job[id_nick_fb]=[]
 			if id_nick_fb not in cout_make_fb: cout_make_fb[id_nick_fb]=1
 			if id_nick_fb not in cout_failed: cout_failed[id_nick_fb]=0
 		list_nick = list(tool.list_nick.keys())
 		random.shuffle(list_nick)
 		for id_nick_fb in list_nick:
+			print(f'\n{color["WHITE"]}++>>FB make:', tool.list_nick[id_nick_fb])
 			check = tool.check_cookie(id_nick_fb)
 			if check==False:
-				cout_nick_checkpoint+=1
-				continue
+			    cout_nick_checkpoint+=1
+			    continue
 			if id_nick_fb in list_nick_block: continue
 			token = tool.list_ct[id_nick_fb]['token']
 			cookie = tool.list_ct[id_nick_fb]['cookie']
-			print(f'\n{color["WHITE"]}++>>FB make:', tool.list_nick[id_nick_fb])
 			cout = 0
-			while cout > loop_job:
-				# try:
+			while cout < loop_job:
+				try:
 					while True:
 						if len(dict_job[id_nick_fb])>0: break
 						dict_job[id_nick_fb] = tool.get_list_job(id_nick_fb)
@@ -355,6 +355,7 @@ def run_tool(tool):
 						if type_kq != '2':
 							print(f'{color["RED"]}>>>failed :(')
 							cout_failed[id_nick_fb]+=1
+							list_job_error.append(link_job)
 						else:
 							cout_failed[id_nick_fb] = 0
 							cout_make_fb[id_nick_fb] += 1
@@ -375,7 +376,6 @@ def run_tool(tool):
 							s = random.randint(delay_from, delay_to)
 							print(f'{color["BLUE"]}>>wait {s}s')
 							sleep(s)
-
 					elif check == 0:
 						print(f'{color["RED"]}>>>error link!!!')
 						list_job_error.append(link_job)
@@ -389,16 +389,17 @@ def run_tool(tool):
 						if check==True: continue
 						print(f'{color["RED"]}>>>checkpoint !!!<<<')
 						list_job_error = list_job_error[0:-11]
-						break			
-				# except:
-				# 	while True:
-				# 		print(f'{color["RED"]}[lỗi mạng đợi 5s!!!]')
-				# 		sleep(5)
-				# 		check = tool.login_tds()
-				# 		if check != False: break
+						break
+				except:
+				    while True:
+				        print(f'{color["RED"]}[lỗi mạng đợi 5s!!!]')
+				        sleep(5)
+				        check = tool.login_tds()
+				        if check != False: break
 			if check_close == True: break
 			print(f'{color["BLUE"]}[Change FB after {time_change}s]')
 			sleep(time_change)
+		print(f'{color["WHITE"]}')
 		if check_close == True: break
 		if cout_nick_checkpoint >= len(tool.list_nick):
 			print('Die hết nick rồi :(')
