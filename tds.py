@@ -78,60 +78,52 @@ class tool_tds():
 		f = open(path_input, 'w', encoding='utf8')
 		json.dump(data, f, ensure_ascii=False, indent=4)
 		f.close()
-
-	def get_profile(self, cookie):
-		params = {'access_token':self.get_token(cookie)}
-		url = f'https://graph.facebook.com/me?feed'
+	
+	def get_info(self, token):
+		params = {'access_token': token}
+		url = 'https://graph.facebook.com/me?feed'
 		res = self.ses.get(url, params=params)
 		data = res.json()
-		return data
+		path_nick = f'nicks/{self.username}'
+		if not path.exists(path_nick): mkdir(path_nick)
+		path_data = f'{path_nick}/{data["name"]}_{data["id"]}'
+		if not path.exists(path_data): 
+			mkdir(path_data)
+			path_output = f'{path_data}/info.json'
+			self.save_file_json(path_output, data)
+			url = 'https://graph.facebook.com/me?fields=friends'
+			res = self.ses.get(url, params=params)
+			data = res.json()
+			data = data['friends']['data']
+			path_output = f'{path_data}/list_friend.json'
+			self.save_file_json(path_output, data)
 
-	def get_list_friend(self, cookie):
-		params = {'access_token':self.get_token(cookie)}
-		url = f'https://graph.facebook.com/me?fields=friends'
-		res = self.ses.get(url, params=params)
-		data = res.json()
-		data = data['friends']['data']
-		return data
-
-	def get_info(self, cookie, path_file_backup):
-		data = self.get_profile(cookie)
-		path_output = f'{path_file_backup}/info.json'
-		self.save_file_json(path_output, data)
-		data = self.get_list_friend(cookie)
-		path_output = f'{path_file_backup}/list_friend.json'
-		self.save_file_json(path_output, data)
-
-	def check_cookie(self, id_nick_fb):
+	def check_cookie(self, fb_id):
 		name_file_cookie = f'{self.username}.txt'
-		data = open(name_file_cookie, 'r').read().close()
+		data = open(name_file_cookie, 'r').read()
 		list_cookie = data.split('\n')
 		cout = 1
-				if cookie=='': break
-				c_user = re.findall(r'c_user=(.*?);', cookie)
-				if c_user == []: print(f'Line {cout}: cookie sai!!!')
-				else:
-					user_id = c_user[0]
-					check = False
-					for id_nick_fb in self.list_nick:
-						if user_id == id_nick_fb:
-							token = self.get_token(cookie)
-							if token=='':
-								print(f'Line {cout}: {self.list_nick[user_id]} >> cookie die!!!')
-								break
-							self.list_ct[user_id] = {}
-							print(f'Line {cout}: {self.list_nick[user_id]} >> cookie live!!!')
-							self.list_ct[user_id]['cookie'] = cookie
-							self.list_ct[user_id]['token'] = token
-							path_file_backup = f'nicks/{self.username}/{user_id}'
-							if not path.exists(path_file_backup):
-								mkdir(path_file_backup)
-								self.get_info(cookie, path_file_backup)
-							check = True
-							break
-					if check==False: print(f'Line {cout}: TDS no have ID!!!')
-				cout+=1
-			f.close()
+		check = False
+		for cookie in list_cookie:
+			if cookie=='': continue
+			fc = re.findall(r'c_user=(.*?);', cookie)
+			if fc == []: continue
+			temp = fc[0]
+			for id_nick_fb in self.list_nick:
+				if temp==id_nick_fb and temp==fb_id:
+					token = self.get_token(cookie)
+					if token=='':
+						print(f'[cookie DIE (line {cout})]')
+						return check
+					self.list_ct[fb_id] = {}
+					self.list_ct[fb_id]['cookie'] = cookie
+					self.list_ct[fb_id]['token'] = token
+					print(f'[cookie LIVE (line {cout})]')
+					self.get_info(token)
+					check = True
+					return check
+			cout+=1
+		return check
 
 	def get_list_job(self, id_nick_fb):
 		list_job = []
@@ -178,11 +170,6 @@ class tool_tds():
 					job = id_job+'|'+name_job+'|'+title+'|'+cmt
 					list_job.append(job)
 		return list_job
-
-	def fill_link(self, link):
-		res = self.ses.get(link)
-		link = res.url.replace('/www.', '/mbasic.')
-		return link
 
 	def make_job_like(self, token, id_ob):
 		params = {'access_token': token}
@@ -327,27 +314,28 @@ def run_tool(tool):
 	cout_cookie_die = 0
 	check_close = False
 	list_job_error = []
+	cout_nick_checkpoint = 0
+	list_nick_block = []
 
 	while True:
-		check_cookie_die = True
 		for id_nick_fb in tool.list_ct:
 			if id_nick_fb not in dict_job: dict_job[id_nick_fb]=[]
 			if id_nick_fb not in cout_make_fb: cout_make_fb[id_nick_fb]=1
 			if id_nick_fb not in cout_failed: cout_failed[id_nick_fb]=0
-			if tool.list_ct[id_nick_fb]['cookie'] != '': check_cookie_die = False
-		if check_cookie_die == True:
-			print('>>>Hết nick chạy!!!<<<')
-			break
-		list_nick = list(tool.list_ct.keys())
+		list_nick = list(tool.list_nick.keys())
 		random.shuffle(list_nick)
 		for id_nick_fb in list_nick:
+			check = tool.check_cookie(id_nick_fb)
+			if check==False:
+				cout_nick_checkpoint+=1
+				continue
+			if id_nick_fb in list_nick_block: continue
 			token = tool.list_ct[id_nick_fb]['token']
 			cookie = tool.list_ct[id_nick_fb]['cookie']
-			if cookie=='': continue	
 			print(f'\n{color["WHITE"]}++>>FB make:', tool.list_nick[id_nick_fb])
 			cout = 0
-			while True:
-				try:
+			while cout > loop_job:
+				# try:
 					while True:
 						if len(dict_job[id_nick_fb])>0: break
 						dict_job[id_nick_fb] = tool.get_list_job(id_nick_fb)
@@ -387,35 +375,35 @@ def run_tool(tool):
 							s = random.randint(delay_from, delay_to)
 							print(f'{color["BLUE"]}>>wait {s}s')
 							sleep(s)
-							if cout >= loop_job: break
+
 					elif check == 0:
 						print(f'{color["RED"]}>>>error link!!!')
 						list_job_error.append(link_job)
-						if len(list_job_error) > 100: list_job_error=[]
 						cout_failed[id_nick_fb]+=1
 					elif check==2:
 						print(f'{color["RED"]}>>>Block tt!!!')
-						tool.list_ct[id_nick_fb]['cookie']=''
+						list_nick_block.append(id_nick_fb)
 						break
 					if cout_failed[id_nick_fb] > 11:
-						kt = tool.get_token(cookie)
-						if kt!='': continue
+						check = tool.check_cookie(id_nick_fb)
+						if check==True: continue
 						print(f'{color["RED"]}>>>checkpoint !!!<<<')
-						tool.list_ct[id_nick_fb]['cookie']=''
-						list_job_error = list_job_error[0:20]
+						list_job_error = list_job_error[0:-11]
 						break			
-				except:
-					while True:
-						print(f'{color["RED"]}[lỗi mạng đợi 5s!!!]')
-						sleep(5)
-						check = tool.login_tds()
-						if check != False: break
+				# except:
+				# 	while True:
+				# 		print(f'{color["RED"]}[lỗi mạng đợi 5s!!!]')
+				# 		sleep(5)
+				# 		check = tool.login_tds()
+				# 		if check != False: break
 			if check_close == True: break
 			print(f'{color["BLUE"]}[Change FB after {time_change}s]')
 			sleep(time_change)
 		if check_close == True: break
+		if cout_nick_checkpoint >= len(tool.list_nick):
+			print('Die hết nick rồi :(')
+			break
 	
-
 if __name__ == '__main__':
 	if not path.exists('nicks'): mkdir('nicks')
 	username = input('>>>UserName: ')
@@ -426,8 +414,6 @@ if __name__ == '__main__':
 	if check == True:
 		print('\n>>>Login success!!!\n')
 		print('><><><><><><><\n>>>Xu:', tool.xu,'xu\n><><><><><><><\n')
-		print('>>>Checking cookie...\n><><><><>><><><><')
-		tool.check_cookie()
 		run_tool(tool)
 	else: print('Login failed!!!')
 	print('Kết thúc tool!!!')
