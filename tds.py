@@ -123,6 +123,7 @@ class tool_tds():
 					check = True
 					return check
 			cout+=1
+		print('No have cookie')
 		return check
 
 	def get_list_job(self, id_nick_fb):
@@ -391,11 +392,11 @@ def run_tool(tool):
 						list_job_error = list_job_error[0:-11]
 						break
 				except:
-				    while True:
-				        print(f'{color["RED"]}[lỗi mạng đợi 5s!!!]')
-				        sleep(5)
-				        check = tool.login_tds()
-				        if check != False: break
+					while True:
+						print(f'{color["RED"]}[lỗi mạng đợi 5s!!!]')
+						sleep(5)
+						check = tool.login_tds()
+						if check != False: break
 			if check_close == True: break
 			print(f'{color["BLUE"]}[Change FB after {time_change}s]')
 			sleep(time_change)
