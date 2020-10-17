@@ -102,13 +102,11 @@ class tool_tds():
 		path_output = f'{path_file_backup}/list_friend.json'
 		self.save_file_json(path_output, data)
 
-	def check_cookie(self):
+	def check_cookie(self, id_nick_fb):
 		name_file_cookie = f'{self.username}.txt'
-		with open(name_file_cookie, 'r') as f:
-			cout = 1
-			while True:
-				cookie = f.readline()
-				cookie = cookie.replace('\n', '')
+		data = open(name_file_cookie, 'r').read().close()
+		list_cookie = data.split('\n')
+		cout = 1
 				if cookie=='': break
 				c_user = re.findall(r'c_user=(.*?);', cookie)
 				if c_user == []: print(f'Line {cout}: cookie sai!!!')
