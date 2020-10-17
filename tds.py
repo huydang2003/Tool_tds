@@ -403,8 +403,8 @@ def run_tool(tool):
 		print(f'{color["WHITE"]}')
 		if check_close == True: break
 		if len(list_nick_block) >= len(tool.list_nick):
-		    print('Hết nick chạy rồi !!!')
-		    break
+			print('Hết nick chạy rồi !!!')
+			break
 		if cout_nick_checkpoint >= len(tool.list_nick):
 			print('Die hết nick rồi :(')
 			break
@@ -417,8 +417,8 @@ if __name__ == '__main__':
 	tool = tool_tds(username, password)
 	check = tool.login_tds()
 	if check == True:
-        print('\n>>>Login success!!!\n')
-        print('><><><><><><><\n>>>Xu:', tool.xu,'xu\n><><><><><><><\n')
+		print('\n>>>Login success!!!\n')
+		print('><><><><><><><\n>>>Xu:', tool.xu,'xu\n><><><><><><><\n')
 		run_tool(tool)
 	else: print('Login failed!!!')
 	print('Kết thúc tool!!!')
