@@ -1,0 +1,52 @@
+{
+    "id": "100053325952984",
+    "birthday": "08/26/1998",
+    "education": [
+        {
+            "school": {
+                "id": "163323593695321",
+                "name": "Đại học Mĩ thuật công nghiệp Hà Nội"
+            },
+            "type": "College",
+            "id": "122324166221781"
+        },
+        {
+            "school": {
+                "id": "420861054642703",
+                "name": "THPT Nam Phù Cừ"
+            },
+            "type": "High School",
+            "id": "122320202888844"
+        },
+        {
+            "school": {
+                "id": "420861054642703",
+                "name": "THPT Nam Phù Cừ"
+            },
+            "type": "High School",
+            "id": "122319846222213"
+        }
+    ],
+    "email": "mlqclqw621@nalafx.com",
+    "first_name": "Thanh Tâm",
+    "gender": "female",
+    "hometown": {
+        "id": "115483055132880",
+        "name": "Phù Cừ"
+    },
+    "interested_in": [
+        "nam"
+    ],
+    "last_name": "Trần",
+    "link": "https://www.facebook.com/profile.php?id=100053325952984",
+    "location": {
+        "id": "110457042313059",
+        "name": "Hưng Yên"
+    },
+    "locale": "vi_VN",
+    "name": "Trần Thanh Tâm",
+    "published_timeline": true,
+    "timezone": 7,
+    "updated_time": "2020-10-21T01:44:13+0000",
+    "verified": true
+}

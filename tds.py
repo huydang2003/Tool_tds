@@ -24,7 +24,7 @@ class tool_tds():
 			if res.text == '{"success":true}':
 				self.path_index = f'nicks/{self.username}'
 				if not path.exists(self.path_index): mkdir(self.path_index)
-				name_file_cookie = f'{self.username}.txt'
+				name_file_cookie = f'cookie/{self.username}.txt'
 				if not path.exists(name_file_cookie):
 					open(name_file_cookie, 'w').close()
 					input(f'Cookie in file : {name_file_cookie} (1 cookie / 1 line)')
@@ -87,19 +87,18 @@ class tool_tds():
 		path_nick = f'nicks/{self.username}'
 		if not path.exists(path_nick): mkdir(path_nick)
 		path_data = f'{path_nick}/{data["name"]}_{data["id"]}'
-		if not path.exists(path_data): 
-			mkdir(path_data)
-			path_output = f'{path_data}/info.json'
-			self.save_file_json(path_output, data)
-			url = 'https://graph.facebook.com/me?fields=friends'
-			res = self.ses.get(url, params=params)
-			data = res.json()
-			data = data['friends']['data']
-			path_output = f'{path_data}/list_friend.json'
-			self.save_file_json(path_output, data)
+		if not path.exists(path_data): mkdir(path_data)
+		path_output = f'{path_data}/info.json'
+		self.save_file_json(path_output, data)
+		url = 'https://graph.facebook.com/me?fields=friends'
+		res = self.ses.get(url, params=params)
+		data = res.json()
+		data = data['friends']['data']
+		path_output = f'{path_data}/list_friend.json'
+		self.save_file_json(path_output, data)
 
 	def check_cookie(self, fb_id):
-		name_file_cookie = f'{self.username}.txt'
+		name_file_cookie = f'cookie/{self.username}.txt'
 		data = open(name_file_cookie, 'r').read()
 		list_cookie = data.split('\n')
 		cout = 1
@@ -145,7 +144,6 @@ class tool_tds():
 			res = self.ses.post(url_request, data=payload)
 			soup = BeautifulSoup(res.content, 'html.parser')
 			if url[0] != '/comment/':
-				cout = 0
 				nvs = soup.find_all(class_='btn-outline-primary')
 				for y in nvs:
 					title = y.get('title')
@@ -156,8 +154,6 @@ class tool_tds():
 					if url[0] == '/reaction/': name_job = temp[5]
 					data_job = id_job+'|'+name_job+'|'+title
 					list_job.append(data_job)
-					cout += 1
-					if cout >= 10: break
 			elif url[0] == '/comment/':
 				card = soup.find_all(class_='col-md-3')
 				for y in card:
@@ -231,7 +227,7 @@ class tool_tds():
 		check = self.make_job_like(token, id_ob)
 		if check==0: return 0
 		elif check==2: return 2
-		else:
+		elif check==1:
 			dict_reaction = {'LIKE':0, 'LOVE':1, 'TT':2, 'HAHA':3, 'WOW':4, 'SAD':5, 'ANGRY':6}
 			link = 'https://mbasic.facebook.com/reactions/picker/?is_permalink=1&ft_id='+id_ob
 			headers = self.get_headers(cookie)
@@ -300,10 +296,9 @@ def run_tool(tool):
 	loop_job = int(input())
 	print('+Time change FB(>30s): ', end='')
 	time_change = int(input())
-	print('+delay from: ', end='')
-	delay_from = int(input())
-	print('+delay to: ', end='')
-	delay_to = int(input(''))
+	delay = input('+delay: ')
+	st = int(delay.split(' ')[0])
+	en = int(delay.split(' ')[1])
 	print('><><><><>><><\n>>>>Max xu(n x 1000xu): ', end='')
 	max_xu = int(input())*1000
 	print('><><><><>><><')
@@ -317,25 +312,28 @@ def run_tool(tool):
 	list_job_error = []
 	cout_nick_checkpoint = 0
 	list_nick_block = []
-
+	
+	list_nick = list(tool.list_nick.keys())
+	random.shuffle(list_nick)
 	while True:
 		for id_nick_fb in tool.list_nick:
 			if id_nick_fb not in dict_job: dict_job[id_nick_fb]=[]
 			if id_nick_fb not in cout_make_fb: cout_make_fb[id_nick_fb]=1
 			if id_nick_fb not in cout_failed: cout_failed[id_nick_fb]=0
-		list_nick = list(tool.list_nick.keys())
-		random.shuffle(list_nick)
+
 		for id_nick_fb in list_nick:
 			print(f'\n{color["WHITE"]}++>>FB make:', tool.list_nick[id_nick_fb])
 			check = tool.check_cookie(id_nick_fb)
 			if check==False:
 			    cout_nick_checkpoint+=1
+			    list_nick_block.append(id_nick_fb)
 			    continue
 			if id_nick_fb in list_nick_block: continue
 			token = tool.list_ct[id_nick_fb]['token']
 			cookie = tool.list_ct[id_nick_fb]['cookie']
 			cout = 0
-			while cout < loop_job:
+			while True:
+				if cout >= loop_job: break
 				try:
 					while True:
 						if len(dict_job[id_nick_fb])>0: break
@@ -374,7 +372,7 @@ def run_tool(tool):
 								print('><><><>><><><><')
 								check_close = True
 								break
-							s = random.randint(delay_from, delay_to)
+							s = random.randint(st, en)
 							print(f'{color["BLUE"]}>>wait {s}s')
 							sleep(s)
 					elif check == 0:
@@ -411,6 +409,7 @@ def run_tool(tool):
 	
 if __name__ == '__main__':
 	if not path.exists('nicks'): mkdir('nicks')
+	if not path.exists('cookie'): mkdir('cookie')
 	username = input('>>>UserName: ')
 	password = input('>>>PassWord: ')
 	system('clear')
