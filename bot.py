@@ -165,7 +165,13 @@ class Tool_tds():
 		return check
 # /////////////////////////////////////
 	def time_now(self):
-		time_now = f'{localtime().tm_hour}:{localtime().tm_min}:{localtime().tm_sec}'
+		h = localtime().tm_hour
+		p = localtime().tm_min
+		s = localtime().tm_sec
+		if int(h)<10: h = f'0{h}'
+		if int(p)<10: p = f'0{p}'
+		if int(s)<10: s = f'0{s}'
+		time_now = f'{h}:{p}:{s}'
 		return time_now
 
 	def log_current(self, username, sl=None):
@@ -235,7 +241,7 @@ class Tool_tds():
 		temp = data.split('\n')
 		for cookie in temp:
 			fc = re.findall(r'c_user=(.*?);', cookie)
-			if fc==[]: continue
+			if len(fc)==0: continue
 			for idfb in list_idfb:
 				if fc[0] == idfb:
 					list_cookie[idfb] = cookie
@@ -364,6 +370,7 @@ class Tool_tds():
 			print("Login failed!!!")
 
 if __name__ == '__main__':
-	list_nick = open('list_nick.txt', 'r').read().split("\n")
-	tool = Tool_tds(list_nick)
-	tool.run_tool()
+    os.system('clear')
+    list_nick = open('list_nick.txt', 'r').read().split("\n")
+    tool = Tool_tds(list_nick)
+    tool.run_tool()

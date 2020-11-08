@@ -1,0 +1,59 @@
+{
+    "id": "100018492116641",
+    "birthday": "05/06/1996",
+    "education": [
+        {
+            "school": {
+                "id": "301101586751149",
+                "name": "Trường Đại học Mở TP. HCM - Tư vấn tuyển sinh"
+            },
+            "type": "College",
+            "id": "634108760548855"
+        },
+        {
+            "school": {
+                "id": "191816397505036",
+                "name": "Trường THPT Võ Minh Đức - Bình Dương"
+            },
+            "type": "High School",
+            "id": "634108700548861"
+        }
+    ],
+    "email": "soyima4735@demail3.com",
+    "favorite_teams": [
+        {
+            "id": "197981083709246",
+            "name": "Nhận Định Bóng Đá"
+        }
+    ],
+    "first_name": "Khánh Ly",
+    "gender": "female",
+    "hometown": {
+        "id": "105744996115527",
+        "name": "Ap Binh Duong (1), Vietnam"
+    },
+    "last_name": "Bùi Thị",
+    "link": "https://www.facebook.com/khanhly.buithi.7982",
+    "location": {
+        "id": "111628348854225",
+        "name": "Lào Cai"
+    },
+    "locale": "vi_VN",
+    "name": "Bùi Thị Khánh Ly",
+    "published_timeline": true,
+    "timezone": 7,
+    "updated_time": "2020-09-19T00:46:55+0000",
+    "username": "khanhly.buithi.7982",
+    "verified": true,
+    "work": [
+        {
+            "end_date": "0000-00",
+            "employer": {
+                "id": "111628348854225",
+                "name": "Lào Cai"
+            },
+            "start_date": "0000-00",
+            "id": "634108797215518"
+        }
+    ]
+}

@@ -1,0 +1,52 @@
+{
+    "id": "100043608427142",
+    "birthday": "06/05/1995",
+    "education": [
+        {
+            "school": {
+                "id": "288677691254702",
+                "name": "Trường Đại học Kinh tế - Đại học Quốc gia Hà Nội"
+            },
+            "type": "College",
+            "id": "128012791995668"
+        },
+        {
+            "school": {
+                "id": "264417150323408",
+                "name": "THPT Phù Cừ"
+            },
+            "type": "High School",
+            "id": "128012761995671"
+        }
+    ],
+    "email": "dagase4286@ainbz.com",
+    "first_name": "Tuyền",
+    "gender": "female",
+    "hometown": {
+        "id": "110457042313059",
+        "name": "Hưng Yên"
+    },
+    "last_name": "Đặng Thanh",
+    "link": "https://www.facebook.com/profile.php?id=100043608427142",
+    "location": {
+        "id": "110457042313059",
+        "name": "Hưng Yên"
+    },
+    "locale": "vi_VN",
+    "name": "Đặng Thanh Tuyền",
+    "published_timeline": true,
+    "timezone": 7,
+    "updated_time": "2020-09-19T00:45:56+0000",
+    "verified": true,
+    "work": [
+        {
+            "end_date": "0000-00",
+            "employer": {
+                "id": "106388046062960",
+                "name": "Hà Nội"
+            },
+            "start_date": "0000-00",
+            "id": "128012821995665"
+        }
+    ]
+}
