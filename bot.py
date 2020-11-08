@@ -251,7 +251,7 @@ class Tool_tds():
 			xs = re.findall(r'xs=(.*?);', cookie)
 			if len(c_user)==0 or len(xs)==0: continue
 			for idfb in list_idfb:
-				list_cookie[idfb] = ''
+				if idfb not in list_cookie: list_cookie[idfb] = ''
 				if c_user[0] == idfb:
 					list_cookie[idfb] = f'c_user={c_user[0]}; xs={xs[0]}'
 					break
