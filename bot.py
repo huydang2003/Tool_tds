@@ -251,9 +251,10 @@ class Tool_tds():
 			xs = re.findall(r'xs=(.*?);', cookie)
 			if len(c_user)==0 or len(xs)==0: continue
 			for idfb in list_idfb:
+				list_cookie[idfb] = ''
 				if c_user[0] == idfb:
 					list_cookie[idfb] = f'c_user={c_user[0]}; xs={xs[0]}'
-					break	
+					break
 		f = open(path_cookie, 'w')
 		json.dump(list_cookie, f, indent=4)
 		f.close()
@@ -277,12 +278,9 @@ class Tool_tds():
 		list_nick_out = []
 		list_job_error = []
 		list_config = {}
-		list_nv = {}
-		list_nick_run = list(list_idfb.keys())
-		random.shuffle(list_nick_run)
 		while True:
 			try:
-				for idfb in list_nick_run:
+				for idfb in list_idfb:
 					if idfb in list_nick_out: continue
 					cookie = list_cookie[idfb]
 					token = self.get_token(cookie)
