@@ -198,6 +198,13 @@ class Tool_tds():
 			open('update.json', 'w').write('{}')
 			open('today.txt', 'w').write(f'{localtime().tm_mday}{localtime().tm_mon}')
 
+	def check_loimang(self):
+		try: 
+			self.ses.get('https://httpbin.org/ip', timeout=5)
+			return True
+		except:
+			return False
+
 	def get_list_idfb(self, username, password):
 		url = 'https://traodoisub.com/scr/login.php'
 		payload = {'username': username, 'password': password}
@@ -240,11 +247,12 @@ class Tool_tds():
 		list_cookie = json.load(f)
 		temp = data.split('\n')
 		for cookie in temp:
-			fc = re.findall(r'c_user=(.*?);', cookie)
-			if len(fc)==0: continue
+			c_user = re.findall(r'c_user=(.*?);', cookie)
+			xs = re.findall(r'xs=(.*?);', cookie)
+			if len(c_user)==0 or len(xs)==0: continue
 			for idfb in list_idfb:
-				if fc[0] == idfb:
-					list_cookie[idfb] = cookie
+				if c_user[0] == idfb:
+					list_cookie[idfb] = f'c_user={c_user[0]}; xs={xs[0]}'
 					break	
 		f = open(path_cookie, 'w')
 		json.dump(list_cookie, f, indent=4)
@@ -269,82 +277,85 @@ class Tool_tds():
 		list_nick_out = []
 		list_job_error = []
 		list_config = {}
-		check_close = False
+		list_nv = {}
+		list_nick_run = list(list_idfb.keys())
+		random.shuffle(list_nick_run)
 		while True:
-			for idfb in list_idfb:
-				if idfb in list_nick_out: continue
-				cookie = list_cookie[idfb]
-				token = self.get_token(cookie)
-				if token=='':
-					print(f"\033[91m[{list_idfb[idfb]}|COOKIE DIE]\033[37m")
-					list_nick_out.append(idfb) 
-					continue
-				if idfb not in list_config:
-					self.get_info(username, token)
-					list_config[idfb] = ['like', 'reaction', 'follow']
-
-				cout_local = 0
-				xu = self.get_xu(access_token)
-				cout_all = self.get_current(username)
-
-				loainv = random.choice(list_config[idfb])
-				list_nv = self.get_nv(access_token, idfb, loainv)
-				for nv in list_nv:
-					name_nv = nv.split('|')[0]
-					idpost = nv.split('|')[1]
-
-					if idpost in list_job_error: continue
-
-					try: check = self.making(token, cookie, nv)
-					except: check = 0
-
-					if check==3:
-						self.log_current(username, cout_local)
+			try:
+				for idfb in list_nick_run:
+					if idfb in list_nick_out: continue
+					cookie = list_cookie[idfb]
+					token = self.get_token(cookie)
+					if token=='':
 						print(f"\033[91m[{list_idfb[idfb]}|COOKIE DIE]\033[37m")
-						list_nick_out.append(idfb)
-						break
-
-					elif check==2:
-						self.log_current(username, cout_local)
-						list_config[idfb].remove(loainv)
-						if len(list_config[idfb])==0:
-							print(f"\033[91m[{list_idfb[idfb]}|BLOCK ALL]\033[37m")
+						list_nick_out.append(idfb) 
+						continue
+					if idfb not in list_config:
+						self.get_info(username, token)
+						list_config[idfb] = ['like', 'reaction', 'follow']
+						list_nv[idfb] = []
+					cout_local = 0
+					xu = self.get_xu(access_token)
+					cout_all = self.get_current(username)
+					loainv = random.choice(list_config[idfb])
+					list_nv[idfb] = self.get_nv(access_token, idfb, loainv)
+					for nv in list_nv[idfb]:
+						name_nv = nv.split('|')[0]
+						idpost = nv.split('|')[1]
+						if idpost in list_job_error: continue
+						try: check = self.making(token, cookie, nv)
+						except: check = 0
+						if check==3:
+							self.log_current(username, cout_local)
+							print(f"\033[91m[{list_idfb[idfb]}|COOKIE DIE]\033[37m")
 							list_nick_out.append(idfb)
 							break
-						else:
-							print(f"\033[91m[{list_idfb[idfb]}|BLOCK {loainv.upper()}]\033[37m")
-							break
-
-					elif check==0:
-						list_job_error.append(idpost)
-
-					else:
-						check = self.finish_job(nv)
-						type_kq = check[0]
-						gt = check[1]
-						if type_kq != '2': list_job_error.append(idpost)
-						else:
-							cout_block = 0
-							cout_local+=1
-							xu+=gt
-							cout_all+=1
-							time_now = self.time_now()
-							s1 = f'\033[33m[{time_now}]\033[37m'
-							s2 = f'\033[32m [{cout_all}]|{list_idfb[idfb]}|{name_nv}|+{gt}|{xu} xu\033[37m'
-							print(s1+s2)
-							if cout_local >= loop:
-								self.log_current(username, cout_local)
-								sleep(time_change)
+						elif check==2:
+							self.log_current(username, cout_local)
+							list_config[idfb].remove(loainv)
+							if len(list_config[idfb])==0:
+								print(f"\033[91m[{list_idfb[idfb]}|BLOCK ALL]\033[37m")
+								list_nick_out.append(idfb)
 								break
-							if cout_all >= max_job:
-								self.log_current(username, cout_local)
-								print(f"[HOÀN THÀNH {max_job} JOB]")
-								return 0
-							s = random.randint(delay[0], delay[1])
-							sleep(s)
-			if len(list_nick_out)>=len(list_idfb):
-				print("\033[91m[HẾT NICK CHẠY]\033[37m")
-				return 0	
+							else:
+								print(f"\033[91m[{list_idfb[idfb]}|BLOCK {loainv.upper()}]\033[37m")
+								break
+						elif check==0:
+							list_job_error.append(idpost)
+						else:
+							check = self.finish_job(nv)
+							type_kq = check[0]
+							gt = check[1]
+							if type_kq != '2': list_job_error.append(idpost)
+							else:
+								cout_block = 0
+								cout_local+=1
+								xu+=gt
+								cout_all+=1
+								time_now = self.time_now()
+								s1 = f'\033[33m[{time_now}]\033[37m'
+								s2 = f'\033[32m [{cout_all}]|{list_idfb[idfb]}|{name_nv}|+{gt}|{xu} xu\033[37m'
+								print(s1+s2)
+								if cout_local >= loop:
+									self.log_current(username, cout_local)
+									sleep(time_change)
+									break
+								if cout_all >= max_job:
+									self.log_current(username, cout_local)
+									print(f"[HOÀN THÀNH {max_job} JOB]")
+									return 0
+								s = random.randint(delay[0], delay[1])
+								sleep(s)
+				
+				if len(list_nick_out)>=len(list_idfb):
+					print("\033[91m[HẾT NICK CHẠY]\033[37m")
+					return 0
+			except:
+				while True:
+					sleep(10)
+					check = self.check_loimang()
+					if check==True: break
+
 				
 
 	def run_tool(self):
