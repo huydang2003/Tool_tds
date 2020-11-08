@@ -54,38 +54,6 @@ class tool_tds():
 		self.ses.post(url, data=payload)
 
 	def get_headers(self, cookie):
-		ls_user_agent = [
-			'Mozilla/5.0 (Linux; Android 7.0; SM-G892A Build/NRD90M; wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/60.0.3112.107 Mobile Safari/537.36',
-			'Mozilla/5.0 (Linux; Android 7.0; SM-G892A Build/NRD90M; wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/60.0.3112.107 Mobile Safari/537.36',
-			'Mozilla/5.0 (Linux; Android 7.0; SM-G930VC Build/NRD90M; wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/58.0.3029.83 Mobile Safari/537.36',
-			'Mozilla/5.0 (Linux; Android 6.0.1; SM-G935S Build/MMB29K; wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/55.0.2883.91 Mobile Safari/537.36',
-			'Mozilla/5.0 (Linux; Android 6.0.1; SM-G920V Build/MMB29K) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/52.0.2743.98 Mobile Safari/537.36',
-			'Mozilla/5.0 (Linux; Android 5.1.1; SM-G928X Build/LMY47X) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/47.0.2526.83 Mobile Safari/537.36',
-			'Mozilla/5.0 (Linux; Android 5.1.1; SM-G928X Build/LMY47X) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/47.0.2526.83 Mobile Safari/537.36',
-			'Mozilla/5.0 (Linux; Android 7.1.1; G8231 Build/41.2.A.0.219; wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/59.0.3071.125 Mobile Safari/537.36',
-			'Mozilla/5.0 (Linux; Android 7.1.1; G8231 Build/41.2.A.0.219; wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/59.0.3071.125 Mobile Safari/537.36',
-			'Mozilla/5.0 (Linux; Android 7.1.1; G8231 Build/41.2.A.0.219; wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/59.0.3071.125 Mobile Safari/537.36',
-			'Mozilla/5.0 (Linux; Android 6.0; HTC One M9 Build/MRA58K) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/52.0.2743.98 Mobile Safari/537.3',
-			'Mozilla/5.0 (iPhone; CPU iPhone OS 12_0 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/12.0 Mobile/15E148 Safari/604.1',
-			'Mozilla/5.0 (iPhone; CPU iPhone OS 12_0 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) CriOS/69.0.3497.105 Mobile/15E148 Safari/605.1',
-			'Mozilla/5.0 (iPhone; CPU iPhone OS 12_0 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) CriOS/69.0.3497.105 Mobile/15E148 Safari/605.1',
-			'Mozilla/5.0 (iPhone; CPU iPhone OS 12_0 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) CriOS/69.0.3497.105 Mobile/15E148 Safari/605.1',
-			'Mozilla/5.0 (iPhone; CPU iPhone OS 11_0 like Mac OS X) AppleWebKit/604.1.34 (KHTML, like Gecko) Version/11.0 Mobile/15A5341f Safari/604.1',
-			'Mozilla/5.0 (iPhone; CPU iPhone OS 11_0 like Mac OS X) AppleWebKit/604.1.38 (KHTML, like Gecko) Version/11.0 Mobile/15A5370a Safari/604.1',
-			'Mozilla/5.0 (iPhone9,3; U; CPU iPhone OS 10_0_1 like Mac OS X) AppleWebKit/602.1.50 (KHTML, like Gecko) Version/10.0 Mobile/14A403 Safari/602.1',
-			'Mozilla/5.0 (iPhone9,4; U; CPU iPhone OS 10_0_1 like Mac OS X) AppleWebKit/602.1.50 (KHTML, like Gecko) Version/10.0 Mobile/14A403 Safari/602.1',
-			'Mozilla/5.0 (Apple-iPhone7C2/1202.466; U; CPU like Mac OS X; en) AppleWebKit/420+ (KHTML, like Gecko) Version/3.0 Mobile/1A543 Safari/419.3',
-			'Mozilla/5.0 (Apple-iPhone7C2/1202.466; U; CPU like Mac OS X; en) AppleWebKit/420+ (KHTML, like Gecko) Version/3.0 Mobile/1A543 Safari/419.3',
-			'Mozilla/5.0 (Windows Phone 10.0; Android 4.2.1; Microsoft; RM-1127_16056) AppleWebKit/537.36(KHTML, like Gecko) Chrome/42.0.2311.135 Mobile Safari/537.36 Edge/12.10536',
-			'Mozilla/5.0 (Windows Phone 10.0; Android 4.2.1; Microsoft; Lumia 950) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/46.0.2486.0 Mobile Safari/537.36 Edge/13.1058',
-			'Mozilla/5.0 (Windows Phone 10.0; Android 4.2.1; Microsoft; Lumia 950) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/46.0.2486.0 Mobile Safari/537.36 Edge/13.1058',
-			'Mozilla/5.0 (Windows Phone 10.0; Android 4.2.1; Microsoft; Lumia 950) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/46.0.2486.0 Mobile Safari/537.36 Edge/13.1058',
-			'Mozilla/5.0 (Linux; Android 6.0.1; SHIELD Tablet K1 Build/MRA58K; wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/55.0.2883.91 Safari/537.36',
-			'Mozilla/5.0 (Linux; Android 6.0.1; SHIELD Tablet K1 Build/MRA58K; wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/55.0.2883.91 Safari/537.36',
-			'Mozilla/5.0 (Linux; Android 4.4.3; KFTHWI Build/KTU84M) AppleWebKit/537.36 (KHTML, like Gecko) Silk/47.1.79 like Chrome/47.0.2526.80 Safari/537.36',
-			'Mozilla/5.0 (Linux; Android 4.4.3; KFTHWI Build/KTU84M) AppleWebKit/537.36 (KHTML, like Gecko) Silk/47.1.79 like Chrome/47.0.2526.80 Safari/537.36'
-		]
-		user_agent = random.choice(ls_user_agent)
 		headers = {
 			'authority': 'mbasic.facebook.com',
 			'upgrade-insecure-requests': '1',
@@ -93,7 +61,7 @@ class tool_tds():
 			'sec-fetch-site': 'same-origin',
 			'sec-fetch-mode': 'navigate',
 			'accept-language': 'en-US,en;q=0.9',
-			'user_agent': user_agent
+			'user_agent': 'Mozilla/5.0 (Linux; Android) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/55.0.2883.91 Mobile Safari/537.36'
 		}
 		headers['cookie'] = cookie
 		return headers
@@ -164,9 +132,9 @@ class tool_tds():
 		urlst = 'https://traodoisub.com/ex'
 		urlen = [
 			['/like/', 'LIKE'],
-			['/fanpage/', 'PAGE'],
+			# ['/fanpage/', 'PAGE'],
 			['/follow/', 'SUB'],
-			['/comment/', 'CMT'],
+			# ['/comment/', 'CMT'],
 			['/reaction/', '']
 		]
 		for url in urlen:
@@ -317,140 +285,131 @@ class tool_tds():
 		res = self.ses.post(requests_url, data=payload)
 		return res.text, xu
 
-def run_tool(tool):
-	color = {'RED':'\033[91m', 'GREEN':'\033[32m', 'WHITE':'\033[37m', 'BLUE':'\033[34m'}
-	print('><><><><>><><><><')
-	print('>>>Setting:')
+	def run_tool(self):
+		print('><><><><>><><><><')
+		print('>>>Setting:')
 
-	print('+Faebook max NV(>30 job): ', end='')
-	limit_job =  int(input())
-	print('+Loop NV: ', end='')
-	loop_job = int(input())
-	print('+Time change FB(>30s): ', end='')
-	time_change = int(input())
-	delay = input('+delay: ')
-	st = int(delay.split(' ')[0])
-	en = int(delay.split(' ')[1])
-	print('><><><><>><><\n>>>>Max xu(n x 1000xu): ', end='')
-	max_xu = int(input())*1000
-	print('><><><><>><><')
+		print('+Faebook max NV(>30 job): ', end='')
+		limit_job =  int(input())
+		print('+Loop NV: ', end='')
+		loop_job = int(input())
+		print('+Time change FB(>30s): ', end='')
+		time_change = int(input())
+		delay = input('+delay: ')
+		st = int(delay.split(' ')[0])
+		en = int(delay.split(' ')[1])
+		print('><><><><>><><\n>>>>Max xu(n x 1000xu): ', end='')
+		max_xu = int(input())*1000
+		print('><><><><>><><')
 
-	cout_all = 1
-	dict_job = {}
-	cout_make_fb = {}
-	cout_failed = {}
-	cout_cookie_die = 0
-	check_close = False
-	list_job_error = []
-	cout_nick_checkpoint = 0
-	list_nick_block = []
-	
-	list_nick = list(tool.list_nick.keys())
-	random.shuffle(list_nick)
-	while True:
-		for id_nick_fb in tool.list_nick:
-			if id_nick_fb not in dict_job: dict_job[id_nick_fb]=[]
-			if id_nick_fb not in cout_make_fb: cout_make_fb[id_nick_fb]=1
-			if id_nick_fb not in cout_failed: cout_failed[id_nick_fb]=0
+		cout_all = 1
+		dict_job = {}
+		cout_make_fb = {}
+		cout_failed = {}
+		cout_cookie_die = 0
+		check_close = False
+		list_job_error = []
+		cout_nick_checkpoint = 0
+		list_nick_block = []
+		
+		list_nick = list(self.list_nick.keys())
+		random.shuffle(list_nick)
+		while True:
+			for id_nick_fb in self.list_nick:
+				if id_nick_fb not in dict_job: dict_job[id_nick_fb]=[]
+				if id_nick_fb not in cout_make_fb: cout_make_fb[id_nick_fb]=1
+				if id_nick_fb not in cout_failed: cout_failed[id_nick_fb]=0
 
-		for id_nick_fb in list_nick:
-			print(f'\n{color["WHITE"]}++>>FB make:', tool.list_nick[id_nick_fb])
-			check = tool.check_cookie(id_nick_fb)
-			if check==False:
-			    cout_nick_checkpoint+=1
-			    list_nick_block.append(id_nick_fb)
-			    continue
-			if id_nick_fb in list_nick_block: continue
-			token = tool.list_ct[id_nick_fb]['token']
-			cookie = tool.list_ct[id_nick_fb]['cookie']
-			cout = 0
-			while True:
-				if cout >= loop_job: break
-				try:
-					while True:
-						if len(dict_job[id_nick_fb])>0: break
-						dict_job[id_nick_fb] = tool.get_list_job(id_nick_fb)
-					job = random.choice(dict_job[id_nick_fb])
-					dict_job[id_nick_fb].remove(job)
-					temp = job.split('|')
-					name_job = temp[1]
-					link_job = temp[2]
-					if link_job in list_job_error: continue
-					print(f'{color["WHITE"]}>>>{cout_all}|{name_job}|>{cout_make_fb[id_nick_fb]}<|link: {link_job}')
-					print('\t', end='')
-					check = tool.make_all_fb(cookie, token, job)
-					if check == 1:
-						kq = tool.finish_job(id_nick_fb, job)
-						type_kq = kq[0]
-						xu = kq[1]
-						if type_kq != '2':
-							print(f'{color["RED"]}>>>failed :(')
-							cout_failed[id_nick_fb]+=1
+			for id_nick_fb in list_nick:
+				print(f'\n++>>FB make:', self.list_nick[id_nick_fb])
+				check = self.check_cookie(id_nick_fb)
+				if check==False:
+				    cout_nick_checkpoint+=1
+				    list_nick_block.append(id_nick_fb)
+				    continue
+				if id_nick_fb in list_nick_block: continue
+				token = self.list_ct[id_nick_fb]['token']
+				cookie = self.list_ct[id_nick_fb]['cookie']
+				cout = 0
+				while True:
+					if cout >= loop_job: break
+					try:
+						dict_job[id_nick_fb] = self.get_list_job(id_nick_fb)
+						if len(dict_job[id_nick_fb])>0:
+							print("\033[91m[Hết JOB]\033[37m")
+							break
+						job = random.choice(dict_job[id_nick_fb])
+						dict_job[id_nick_fb].remove(job)
+						temp = job.split('|')
+						name_job = temp[1]
+						link_job = temp[2]
+						if link_job in list_job_error: continue
+						print(f'\033[32m<{cout_all}|{name_job}|>{cout_make_fb[id_nick_fb]}<|\033[37m', end='')
+						check = self.make_all_fb(cookie, token, job)
+						if check == 1:
+							kq = self.finish_job(id_nick_fb, job)
+							type_kq = kq[0]
+							xu = kq[1]
+							if type_kq != '2': list_job_error.append(link_job)
+							else:
+								cout_make_fb[id_nick_fb] += 1
+								cout+=1
+								self.xu+=xu
+								cout_all+=1
+								print(f'\033[32msuccess|>+{xu}<|{self.xu} xu\033[37m')
+								if cout_make_fb[id_nick_fb] > limit_job:
+									print(f'\n\033[91m>>>Kịch rồi!!!<<<\033[37m')
+									list_nick_block.append(id_nick_fb)
+									break
+								if self.xu >= max_xu:
+									print('\n><><><>><><><><')
+									print(f'\033[37m>>>Đã kiếm đủ {max_xu} xu!!!\033[37m')
+									print('><><><>><><><><')
+									check_close = True
+									break
+								s = random.randint(st, en)
+								sleep(s)
+						elif check == 0:
 							list_job_error.append(link_job)
-						else:
-							cout_failed[id_nick_fb] = 0
-							cout_make_fb[id_nick_fb] += 1
-							cout+=1
-							tool.xu+=xu
-							cout_all+=1
-							print(f'{color["GREEN"]}>>>success|>+{xu}<|{tool.xu} xu', end=' ')
-							if cout_make_fb[id_nick_fb] > limit_job:
-								print(f'\n{color["WHITE"]}>>>kịch rồi!!!<<<')
-								list_nick_block.append(id_nick_fb)
-								break
-							if tool.xu >= max_xu:
-								print('\n><><><>><><><><')
-								print(f'{color["WHITE"]}>>>Đã kiếm đủ {max_xu} xu!!!')
-								print('><><><>><><><><')
-								check_close = True
-								break
-							s = random.randint(st, en)
-							print(f'{color["BLUE"]}>>wait {s}s')
-							sleep(s)
-					elif check == 0:
-						print(f'{color["RED"]}>>>error link!!!')
-						list_job_error.append(link_job)
-						cout_failed[id_nick_fb]+=1
-					elif check==2:
-						print(f'{color["RED"]}>>>Block tt!!!')
-						list_nick_block.append(id_nick_fb)
-						break
-					if cout_failed[id_nick_fb] > 11:
-						check = tool.check_cookie(id_nick_fb)
-						if check==True: continue
-						print(f'{color["RED"]}>>>checkpoint !!!<<<')
-						list_job_error = list_job_error[0:-11]
-						break
-				except:
-					while True:
-						print(f'{color["RED"]}[lỗi mạng đợi 5s!!!]')
-						sleep(5)
-						check = tool.login_tds()
-						if check != False: break
+						elif check==2:
+							list_nick_block.append(id_nick_fb)
+							token = self.get_token(cookie)
+							if token=="": print("\n\033[91m[COOKIE DIE]\033[37m")
+							else: print("\n\033[91m[BLOCK LIKE]\033[37m")
+							break
+					except:
+						while True:
+							print(f'\n\033[91m[lỗi mạng đợi 5s!!!]\033[37m')
+							sleep(5)
+							check = self.login_tds()
+							if check != False: break
+				if check_close == True: break
+				print(f'[Change FB after {time_change}s]')
+				sleep(time_change)
+
 			if check_close == True: break
-			print(f'{color["BLUE"]}[Change FB after {time_change}s]')
-			sleep(time_change)
-		print(f'{color["WHITE"]}')
-		if check_close == True: break
-		if len(list_nick_block) >= len(tool.list_nick):
-			print('Hết nick chạy rồi !!!')
-			break
-		if cout_nick_checkpoint >= len(tool.list_nick):
-			print('Die hết nick rồi :(')
-			break
+			if len(list_nick_block) >= len(self.list_nick):
+				print('Hết nick chạy rồi !!!')
+				break
+			if cout_nick_checkpoint >= len(self.list_nick):
+				print('Die hết nick rồi :(')
+				break
 	
 if __name__ == '__main__':
 	if not path.exists('nicks'): mkdir('nicks')
 	if not path.exists('cookie'): mkdir('cookie')
 	username = input('>>>UserName: ')
 	password = input('>>>PassWord: ')
-	system('clear')
+	# system('clear')
 	tool = tool_tds(username, password)
 	check = tool.login_tds()
 	if check == True:
 		print('\n>>>Login success!!!\n')
 		print('><><><><><><><\n>>>Xu:', tool.xu,'xu\n><><><><><><><\n')
-		run_tool(tool)
+		id_nick_fb = '100037892140704'
+		list_job = tool.get_list_job(id_nick_fb)
+		print(list_job)
+		# tool.run_tool()
 	else: print('Login failed!!!')
 	print('Kết thúc tool!!!')
 		

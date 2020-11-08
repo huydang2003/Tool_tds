@@ -1,0 +1,52 @@
+{
+    "id": "100053328047665",
+    "birthday": "07/13/1998",
+    "education": [
+        {
+            "school": {
+                "id": "105930651606",
+                "name": "Harvard University"
+            },
+            "type": "College",
+            "id": "109381497516118"
+        },
+        {
+            "school": {
+                "id": "296550000449429",
+                "name": "Trường THPT Nam Khoái Châu ( Khoái Châu - Hưng Yên )"
+            },
+            "type": "High School",
+            "id": "109381374182797"
+        }
+    ],
+    "email": "jbnce53190@ageokfc.com",
+    "first_name": "Huyền",
+    "gender": "female",
+    "hometown": {
+        "id": "110457042313059",
+        "name": "Hưng Yên"
+    },
+    "last_name": "Thanh",
+    "link": "https://www.facebook.com/profile.php?id=100053328047665",
+    "location": {
+        "id": "115693621776787",
+        "name": "Lieu Thuong, Hai Hung, Vietnam"
+    },
+    "locale": "vi_VN",
+    "name": "Thanh Huyền",
+    "published_timeline": true,
+    "timezone": 7,
+    "updated_time": "2020-10-21T07:57:07+0000",
+    "verified": true,
+    "work": [
+        {
+            "end_date": "0000-00",
+            "employer": {
+                "id": "20531316728",
+                "name": "Facebook App"
+            },
+            "start_date": "0000-00",
+            "id": "109381644182770"
+        }
+    ]
+}
