@@ -277,15 +277,22 @@ class Tool_tds():
 					list_nick_out.append(idfb) 
 					continue
 				
-				if idfb not in list_nv: self.get_info(username, token)
-				list_nv[idfb] = self.get_nv(access_token, idfb)
-				random.shuffle(list_nv[idfb])
+				if idfb not in list_nv:
+					self.get_info(username, token)
+					list_nv[idfb] = []
+
+				while True:
+					if len(list_nv[idfb])>3: break
+					list_nv[idfb] = self.get_nv(access_token, idfb)
+					random.shuffle(list_nv[idfb])
 
 				cout_local = 0
 				xu = self.get_xu(access_token)
 				cout_all = self.get_current(username)
-
-				for nv in list_nv[idfb]:
+				cout_block = 0
+				while True:
+					nv = random.choice(list_nv[idfb])
+					list_nv[idfb].remove(nv)
 					name_nv = nv.split('|')[0]
 					idpost = nv.split('|')[1]
 					if idpost in list_job_error: continue
@@ -297,10 +304,12 @@ class Tool_tds():
 						self.log_current(username, cout_local)
 						break
 					elif check==2:
-						print(f"\033[91m[{list_idfb[idfb]}|BLOCK]\033[37m")
-						list_nick_out.append(idfb)
-						self.log_current(username, cout_local)
-						break
+						cout_block += 1
+						if cout_block > 3:
+							print(f"\033[91m[{list_idfb[idfb]}|BLOCK]\033[37m")
+							list_nick_out.append(idfb)
+							self.log_current(username, cout_local)
+							break
 					elif check==0:
 						list_job_error.append(idpost)
 					else:
@@ -309,6 +318,7 @@ class Tool_tds():
 						gt = check[1]
 						if type_kq != '2': list_job_error.append(idpost)
 						else:
+							cout_block = 0
 							cout_local+=1
 							xu+=gt
 							cout_all+=1
