@@ -293,13 +293,14 @@ class Tool_tds():
 					if idfb not in list_config:
 						self.get_info(username, token)
 						list_config[idfb] = ['like', 'reaction', 'follow']
-						list_nv[idfb] = []
+
 					cout_local = 0
 					xu = self.get_xu(access_token)
 					cout_all = self.get_current(username)
+
 					loainv = random.choice(list_config[idfb])
-					list_nv[idfb] = self.get_nv(access_token, idfb, loainv)
-					for nv in list_nv[idfb]:
+					list_nv = self.get_nv(access_token, idfb, loainv)
+					for nv in list_nv:
 						name_nv = nv.split('|')[0]
 						idpost = nv.split('|')[1]
 						if idpost in list_job_error: continue
