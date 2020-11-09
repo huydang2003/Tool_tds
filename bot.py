@@ -278,9 +278,11 @@ class Tool_tds():
 		list_nick_out = []
 		list_job_error = []
 		list_config = {}
+		list_nick_run = list(list_idfb.keys())
+		random.shuffle(list_nick_run)
 		while True:
 			try:
-				for idfb in list_idfb:
+				for idfb in list_nick_run:
 					if idfb in list_nick_out: continue
 					cookie = list_cookie[idfb]
 					token = self.get_token(cookie)
