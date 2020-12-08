@@ -14,5 +14,26 @@
                 "cookie": "c_user=100009001530807;xs=45%3AyzQNthJIpm2Mgg%3A2%3A1607061904%3A17738%3A6276%3A%3AAcUHFHtkqbqcKJrlVm3vJr67lECp3y-Y9NB5levRVA;datr=Hou2X963YeitD6JjPdkxRnXg;"
             }
         ]
+    },
+    {
+        "username": "huykl2",
+        "password": "doccos102",
+        "list_fb": [
+            {
+                "id": "100054149464264",
+                "name": " Lâm Ngô",
+                "cookie": "c_user=100054149464264;xs=15%3AlMsdjqdTSj_UeQ%3A2%3A1607411451%3A16277%3A6279;datr=sGgtX_gCtRkK7Gzil-l24nTY;"
+            },
+            {
+                "id": "100053822723332",
+                "name": " Trọng Đạt",
+                "cookie": "c_user=100053822723332;xs=32%3AdryKQWkTwc0tsA%3A2%3A1607421070%3A5929%3A6281;datr=sGgtX_gCtRkK7Gzil-l24nTY;"
+            },
+            {
+                "id": "100054120153441",
+                "name": " Huy Gia",
+                "cookie": "c_user=100054120153441;xs=48%3ApHN9G2nt3l88Cg%3A2%3A1607413406%3A18194%3A6300;datr=sGgtX_gCtRkK7Gzil-l24nTY;"
+            }
+        ]
     }
 ]

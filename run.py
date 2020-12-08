@@ -29,8 +29,8 @@ class Auto_traodoisub():
 		self.xu = None
 		self.max_job = 2000
 		self.cout_stop = 30
-		self.time_stop = 20
-		self.delay = 10
+		self.time_stop = 30
+		self.delay = 5
 
 	def make_nv(self, cookie_fb, type_nv, id_nv):
 		if type_nv == "SUB":
@@ -55,7 +55,6 @@ class Auto_traodoisub():
 				if id_fb not in self.list_fb_run:
 					self.list_type_nv[id_fb] = ["LIKE", "SUB", "REACT"]
 					self.list_fb_run.append(id_fb)
-					self.cout_all = self.st.get_current(username)
 
 				if len(self.list_type_nv[id_fb]) == 0:
 					print(f"{self.red}[{name_fb}|BLOCK ALL]{self.white}")
@@ -63,32 +62,30 @@ class Auto_traodoisub():
 				if id_fb in self.list_fb_out:
 					if len(self.list_fb_out) >= len(self.list_fb_run): return 0
 					continue
+				self.tds.cauhinh_nick(id_fb)
 				cout_failed = 0
 				cout_local = 0
 				loai_nv = random.choice(self.list_type_nv[id_fb])
-				print(f"\t>>>[{loai_nv}]<<<")
+				print(f"\t>>>[{name_fb} | {loai_nv} ] <<<")
 				list_nv = []
 				while True:
 					if len(list_nv) == 0:
 						print("[get nv]")
 						self.xu = self.tds.get_xu(username)
 						list_nv = self.tds.get_nv(loai_nv)
-						if len(list_nv) == 0:
+						if len(list_nv) < 10:
 							print("[Het nv]")
 							break
 					nv = list_nv.pop(0)
 					type_nv = nv["type_nv"]
 					id_nv = nv["id_nv"]
-					print("=================")
-					print(f"{type_nv}|{id_nv}")
-					print("=================")
 
-					if id_nv in self.list_id_nv_error: continue
+					if id_nv in self.list_id_nv_error:continue
 					res = self.make_nv(cookie_fb, type_nv, id_nv)
 					if res == 2:
 						print(f"{self.red}[COOKIE DIE]{self.white}")
 						self.list_fb_out.append(id_fb)
-						self.st.log_current(username, cout_local)
+						break
 					elif res == 0:
 						print(f"{self.red}xxx{self.white}")
 						self.list_id_nv_error.append(id_nv)
@@ -99,7 +96,7 @@ class Auto_traodoisub():
 						if code != "2":
 							cout_failed += 1
 							print(f"{self.red}...{self.white}")
-							if cout_failed >= 5:
+							if cout_failed >= 3:
 								check = self.fb.check_cookie_fb(cookie_fb)
 								if check == True: 
 									print(f"{self.red}[BLOCK {loai_nv}]{self.white}")
@@ -107,7 +104,7 @@ class Auto_traodoisub():
 								else: 
 									print(f"{self.red}[COOKIE DIE]{self.white}")
 									self.list_fb_out.append(id_fb)
-									break
+								break
 						else:
 							cout_failed = 0
 							cout_local += 1
@@ -116,21 +113,20 @@ class Auto_traodoisub():
 
 							time_now = f"{self.yellow}[{self.st.time_now()}]{self.white}"
 							print(time_now, end=' ')
-							sssss = f"{self.green}[{self.cout_all}]|{name_fb} | {type_nv} | {xxuu} | {self.xu} xu{self.white}"
+							sssss = f"{self.green}[{self.cout_all}] |{name_fb} | {type_nv} | {xxuu} | {self.xu} xu{self.white}"
 							print(sssss, end=' ')
 
 							if self.cout_all % 3 == 0:
-								self.st.log_current(username, cout_local)
+								self.st.log_current(username, 3)
 
 							if cout_local > self.cout_stop: break
 							if self.cout_all > self.max_job:
-								print(f"[HOAN THANH {self.cout_all} NHIEM VU]")
-								self.st.log_current(username, cout_local)
+								print(f"\n[HOAN THANH {self.cout_all} NHIEM VU]")
 								return 0
 							s = random.randint(self.delay-2, self.delay+2)
 							print(f"{self.blue}[wait {s}s]{self.white}")
 							sleep(s)
-				print(f"[CHUYEN NICK FACEBOOK {self.time_stop}S]")
+				print(f"\n[CHUYEN NICK FACEBOOK {self.time_stop}S]")
 				sleep(self.time_stop)
 
 	def clear_console(self, cl):
@@ -188,7 +184,7 @@ class Auto_traodoisub():
 							print('[SETTING]')
 							print("\t+Giới hạn NV: 2000")
 							print("\t+Nghỉ khi làm được: 30")
-							print("\t+Nhập thời gian nghỉ(s): 15")
+							print("\t+Nhập thời gian nghỉ(s): 30")
 							print("\t+Delay(>3s): 5 ")
 							check = input("+Mặc định?(y/n): ")
 							if check=='n':
