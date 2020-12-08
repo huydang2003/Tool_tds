@@ -35,5 +35,26 @@
                 "cookie": "c_user=100054120153441;xs=48%3ApHN9G2nt3l88Cg%3A2%3A1607413406%3A18194%3A6300;datr=sGgtX_gCtRkK7Gzil-l24nTY;"
             }
         ]
+    },
+    {
+        "username": "huykl3",
+        "password": "doccos102",
+        "list_fb": [
+            {
+                "id": "100053129624710",
+                "name": " Trường Tùng",
+                "cookie": "c_user=100053129624710;xs=43%3A3Al5YHjXNMLeMw%3A2%3A1607423207%3A15066%3A6204;datr=OnAtX15t0CaH-0EO25nV1Aa2;"
+            },
+            {
+                "id": "100052922213470",
+                "name": " Linh Chi",
+                "cookie": "c_user=100052922213470;xs=3%3AcCjipbSfoVif0g%3A2%3A1607423181%3A15066%3A6204;datr=OnAtX15t0CaH-0EO25nV1Aa2;"
+            },
+            {
+                "id": "100053810693621",
+                "name": " Nguyễn Thùy Linh",
+                "cookie": "c_user=100053810693621;xs=34%3AVOGpcq6RrIBpQg%3A2%3A1607423092%3A9075%3A6267;datr=OnAtX15t0CaH-0EO25nV1Aa2;"
+            }
+        ]
     }
 ]
