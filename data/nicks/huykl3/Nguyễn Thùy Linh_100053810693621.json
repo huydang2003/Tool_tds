@@ -1,0 +1,52 @@
+{
+    "id": "100053810693621",
+    "birthday": "02/26/1996",
+    "education": [
+        {
+            "school": {
+                "id": "997451277008668",
+                "name": "Trường Đại học Ngoại ngữ - Đại học Quốc gia Hà Nội"
+            },
+            "type": "College",
+            "id": "191195819350773"
+        },
+        {
+            "school": {
+                "id": "114668461883395",
+                "name": "Hải Phòng"
+            },
+            "type": "High School",
+            "id": "191195789350776"
+        }
+    ],
+    "email": "qibxw40622@demail3.com",
+    "first_name": "Thùy Linh",
+    "gender": "male",
+    "hometown": {
+        "id": "108458769184495",
+        "name": "Thành phố Hồ Chí Minh"
+    },
+    "last_name": "Nguyễn",
+    "link": "https://www.facebook.com/profile.php?id=100053810693621",
+    "location": {
+        "id": "115983535079625",
+        "name": "Yen Nguu, Ha Noi, Vietnam"
+    },
+    "locale": "vi_VN",
+    "name": "Nguyễn Thùy Linh",
+    "published_timeline": true,
+    "timezone": 7,
+    "updated_time": "2020-10-27T12:09:49+0000",
+    "verified": true,
+    "work": [
+        {
+            "end_date": "0000-00",
+            "employer": {
+                "id": "997451277008668",
+                "name": "Trường Đại học Ngoại ngữ - Đại học Quốc gia Hà Nội"
+            },
+            "start_date": "0000-00",
+            "id": "191195872684101"
+        }
+    ]
+}
